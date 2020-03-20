@@ -1,0 +1,101 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A template for creating EC2 instanc and RDS storage (postgress)
+Parameters:
+  MasterUsernameParameter:
+    Type: String
+    Default: postgres
+    Description: Enter master username for DBInstance. Default is 'postgres'.
+  MasterUserPasswordParameter:
+    Type: String
+    Description: Enter master user password for DBInstance.
+    NoEcho: 'true'
+Resources:
+    EC2Instance:
+      Description: EC2 Linux AMI
+      Type: "AWS::EC2::Instance"
+      Properties:
+        ImageId: "ami-0de53d8956e8dcf80" #This is a Linux AMI
+        InstanceType: t2.micro
+        KeyName: rgederin-aws-key-pair
+        AvailabilityZone: us-east-1a
+        IamInstanceProfile:
+          Ref: S3InstanceProfile
+        UserData: !Base64
+          'Fn::Join':
+            - ''
+            - - |
+                #!/bin/bash -xe
+              - |
+                aws s3api get-object --bucket rgederin-bucket-week3 --key rds-script.sql rds-script.sql
+        SecurityGroups:
+          - !Ref SSHSecurityGroup
+    RDSPostgres:
+      Type: 'AWS::RDS::DBInstance'
+      Properties:
+        AllocatedStorage: '10'
+        AvailabilityZone: us-east-1a
+        DBInstanceClass: db.t2.micro
+        Engine: postgres
+        MasterUsername: !Ref MasterUsernameParameter
+        MasterUserPassword: !Ref MasterUserPasswordParameter
+        DBSecurityGroups:
+          - Ref: DBSecurityGroup
+    DBSecurityGroup:
+      Type: AWS::RDS::DBSecurityGroup
+      Properties:
+        GroupDescription: Frontend Access
+        DBSecurityGroupIngress:
+          EC2SecurityGroupName:
+            Ref: SSHSecurityGroup
+    SSHSecurityGroup:
+        Description: Security group configured for ssh and postres access
+        Type: 'AWS::EC2::SecurityGroup'
+        Properties:
+          GroupDescription: Security Group For EC2
+          SecurityGroupIngress:
+            - IpProtocol: tcp
+              FromPort: 22
+              ToPort: 22
+              CidrIp: 0.0.0.0/0
+            - IpProtocol: tcp
+              FromPort: '5432'
+              ToPort: '5432'
+              CidrIp: 0.0.0.0/0
+    S3InstanceProfile:
+      Type: "AWS::IAM::InstanceProfile"
+      Properties:
+        Path: "/"
+        Roles:
+          - !Ref S3Role
+    S3Policy:
+      Type: "AWS::IAM::Policy"
+      Properties:
+        PolicyName: "S3Policy"
+        PolicyDocument:
+          Statement:
+            Effect: "Allow"
+            Action:
+              - "s3:*"
+            Resource: "*"
+        Roles:
+          - !Ref S3Role
+    S3Role:
+      Type: "AWS::IAM::Role"
+      Properties:
+        AssumeRolePolicyDocument:
+          Statement:
+            Effect: "Allow"
+            Principal:
+              Service: "ec2.amazonaws.com"
+            Action: "sts:AssumeRole"
+        Path: "/"
+Outputs:
+  PublicIp:
+    Description: EC2Instance public IP
+    Value: !GetAtt EC2Instance.PublicIp
+  RDSEndpoint:
+    Description: RDS Endpoint
+    Value: !GetAtt RDSPostgres.Endpoint.Address
+  RDSPort:
+    Description: RDS Port
+    Value: !GetAtt RDSPostgres.Endpoint.Port
