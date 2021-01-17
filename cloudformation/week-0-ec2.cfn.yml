@@ -1,4 +1,4 @@
-# create-stack --stack-name week0 --template-body file:///Users/rgederin/github/aws-sandbox/cloudformation/week-0-ec2.cfn.yml --parameters ParameterKey=InstanceType,ParameterValue=t2.micro
+# aws cloudformation create-stack --stack-name week0 --template-body file:///Users/rgederin/github/aws-sandbox/cloudformation/week-0-ec2.cfn.yml --parameters ParameterKey=InstanceType,ParameterValue=t2.micro
 
 # aws cloudformation describe-stacks --stack-name week0
 

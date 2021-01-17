@@ -1,0 +1,76 @@
+# aws cloudformation create-stack --stack-name week1 --template-body file:///Users/rgederin/github/aws-sandbox/cloudformation/week-1-asg.cfn.yml --parameters ParameterKey=EC2InstanceType,ParameterValue=t2.micro ParameterKey=EC2InstanceAmiId,ParameterValue=ami-08d9a394ac1c2994c ParameterKey=KeyName,ParameterValue=rgederin-us-west-1
+
+# aws cloudformation describe-stacks --stack-name week1
+
+# aws cloudformation delete-stack --stack-name week1
+
+Description: A template for creating AutoScalingGroup with help of LaunchTemplate
+
+Parameters:
+  EC2InstanceType:
+    Description: EC2 instance type configuration
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t2.medium
+
+  EC2InstanceAmiId:
+    Description: AMI identifier for the EC2 instance
+    Type: String
+
+  KeyName:
+    Description: EC2 Instance SSH Key
+    Type: AWS::EC2::KeyPair::KeyName
+
+Resources:
+  LaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        ImageId: !Ref EC2InstanceAmiId
+        InstanceType: !Ref EC2InstanceType
+        KeyName: !Ref KeyName
+        SecurityGroups:
+          - !Ref SSHSecurityGroup
+          - !Ref HTTPSecurityGroup
+        UserData:
+          Fn::Base64: |
+            #!/bin/bash
+            sudo yum -y update 
+            sudo yum -y install java-1.8.0-openjdk
+
+  AutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      MinSize: "2"
+      MaxSize: "4"
+      DesiredCapacity: "2"
+      AvailabilityZones:
+        - us-west-1a
+      LaunchTemplate:
+        LaunchTemplateId: !Ref LaunchTemplate
+        Version: !GetAtt LaunchTemplate.LatestVersionNumber
+
+  SSHSecurityGroup:
+    Description: Security group configured for ssh access
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security Group For EC2
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+  HTTPSecurityGroup:
+    Description: Security group configured for http access
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security Group For EC2
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
