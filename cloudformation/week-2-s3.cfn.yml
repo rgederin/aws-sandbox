@@ -1,0 +1,116 @@
+# aws cloudformation create-stack --stack-name week2 --template-body file:///Users/rgederin/github/aws-sandbox/cloudformation/week-2-s3.cfn.yml --capabilities CAPABILITY_NAMED_IAM
+
+# aws cloudformation describe-stacks --stack-name week2
+
+# aws cloudformation delete-stack --stack-name week2
+
+Description: A template for creating EC2 instance with security group configured with ssh and http access and ability to access S3
+
+Parameters:
+  EC2InstanceType:
+    Description: EC2 instance type configuration
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t2.medium
+
+  EC2InstanceAmiId:
+    Description: AMI identifier for the EC2 instance
+    Type: String
+    Default: ami-08d9a394ac1c2994c
+
+  KeyName:
+    Description: EC2 Instance SSH Key
+    Type: AWS::EC2::KeyPair::KeyName
+    Default: rgederin-us-west-1
+
+  S3BucketName:
+    Description: Name of S3 bucket from where file should be downloaded
+    Type: String
+    Default: rgederin-bucket
+
+  S3FileKey:
+    Description: Name of the file in S3 bucket which should be downloaded
+    Type: String
+    Default: rgederin-s3-file.txt
+
+  DestinationFileName:
+    Description: Name of the file in EC2 instance
+    Type: String
+    Default: rgederin-s3-file.txt
+
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref EC2InstanceAmiId
+      InstanceType: !Ref EC2InstanceType
+      KeyName: !Ref KeyName
+      SecurityGroups:
+        - !Ref SSHSecurityGroup
+        - !Ref HTTPSecurityGroup
+      IamInstanceProfile: !Ref EC2InstanceProfile
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          aws s3api get-object --bucket ${S3BucketName} --key ${S3FileKey} ${DestinationFileName}
+
+  SSHSecurityGroup:
+    Description: Security group configured for ssh access
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security Group For EC2
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+  HTTPSecurityGroup:
+    Description: Security group configured for http access
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security Group For EC2
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: "/"
+      Roles:
+        - !Ref S3Role
+
+  S3Policy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: S3Policy
+      PolicyDocument:
+        Statement:
+          Effect: Allow
+          Action:
+            - s3:*
+          Resource: "*"
+      Roles:
+        - !Ref S3Role
+
+  S3Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          Effect: Allow
+          Principal:
+            Service: ec2.amazonaws.com
+          Action: sts:AssumeRole
+      Path: "/"
+
+Outputs:
+  PublicIp:
+    Description: EC2Instance public IP
+    Value: !GetAtt EC2Instance.PublicIp

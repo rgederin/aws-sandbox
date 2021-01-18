@@ -1,10 +1,10 @@
-# aws cloudformation create-stack --stack-name week1 --template-body file:///Users/rgederin/github/aws-sandbox/cloudformation/week-1-asg.cfn.yml --parameters ParameterKey=EC2InstanceType,ParameterValue=t2.micro ParameterKey=EC2InstanceAmiId,ParameterValue=ami-08d9a394ac1c2994c ParameterKey=KeyName,ParameterValue=rgederin-us-west-1
+# aws cloudformation create-stack --stack-name week1 --template-body file:///Users/rgederin/github/aws-sandbox/cloudformation/week-1-asg.cfn.yml
 
 # aws cloudformation describe-stacks --stack-name week1
 
 # aws cloudformation delete-stack --stack-name week1
 
-Description: A template for creating AutoScalingGroup with help of LaunchTemplate
+Description: A template for creating AutoScalingGroup with help of LaunchTemplate. Java 8 is installing during instance startup
 
 Parameters:
   EC2InstanceType:
@@ -19,10 +19,12 @@ Parameters:
   EC2InstanceAmiId:
     Description: AMI identifier for the EC2 instance
     Type: String
+    Default: ami-08d9a394ac1c2994c
 
   KeyName:
     Description: EC2 Instance SSH Key
     Type: AWS::EC2::KeyPair::KeyName
+    Default: rgederin-us-west-1
 
 Resources:
   LaunchTemplate:
