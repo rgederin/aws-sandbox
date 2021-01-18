@@ -1,4 +1,4 @@
-# aws cloudformation create-stack --stack-name week0 --template-body file:///Users/rgederin/github/aws-sandbox/cloudformation/week-0-ec2.cfn.yml --parameters ParameterKey=InstanceType,ParameterValue=t2.micro
+# aws cloudformation create-stack --stack-name week0 --template-body file:///Users/rgederin/github/aws-sandbox/cloudformation/week-0-ec2.cfn.yml
 
 # aws cloudformation describe-stacks --stack-name week0
 
@@ -7,7 +7,7 @@
 Description: A template for creating EC2 instance
 
 Parameters:
-  InstanceType:
+  EC2InstanceType:
     Description: EC2 instance type configuration
     Type: String
     Default: t2.micro
@@ -16,13 +16,17 @@ Parameters:
       - t2.small
       - t2.medium
 
+  EC2InstanceAmiId:
+    Description: AMI identifier for the EC2 instance
+    Type: String
+    Default: ami-08d9a394ac1c2994c
+
 Resources:
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-08d9a394ac1c2994c
-      InstanceType:
-        Ref: InstanceType
+      ImageId: !Ref EC2InstanceAmiId
+      InstanceType: !Ref EC2InstanceType
 
 Outputs:
   PublicIp:
