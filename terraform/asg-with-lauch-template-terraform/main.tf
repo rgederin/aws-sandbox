@@ -8,7 +8,7 @@ resource "aws_launch_template" "launch_template" {
     aws_security_group.egress_all.name
   ]
 
-  user_data = filebase64("${path.module}/java_install.sh")
+  user_data = filebase64("${path.module}/scripts/java_install.sh")
 }
 
 resource "aws_autoscaling_group" "autoscalling-group" {

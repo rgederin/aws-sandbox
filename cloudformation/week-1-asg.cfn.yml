@@ -1,10 +1,10 @@
-# aws cloudformation create-stack --stack-name week1 --template-body file:///Users/rgederin/github/aws-sandbox/cloudformation/week-1-asg.cfn.yml
+# aws cloudformation create-stack --stack-name week1 --template-body file:///{full path to cloudformation file}/week-1-asg.cfn.yml
 
 # aws cloudformation describe-stacks --stack-name week1
 
 # aws cloudformation delete-stack --stack-name week1
 
-Description: A template for creating AutoScalingGroup with help of LaunchTemplate. Java 8 is installing during instance startup
+Description: A template for creating EC2 instances in AutoScalingGroup and Security Groups for SSH and HTTP. Java 8 is installing during instance startup
 
 Parameters:
   EC2InstanceType:

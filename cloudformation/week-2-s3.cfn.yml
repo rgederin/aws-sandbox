@@ -1,10 +1,10 @@
-# aws cloudformation create-stack --stack-name week2 --template-body file:///Users/rgederin/github/aws-sandbox/cloudformation/week-2-s3.cfn.yml --capabilities CAPABILITY_NAMED_IAM
+# aws cloudformation create-stack --stack-name week2 --template-body file:///{full path to the cloudformation file}/week-2-s3.cfn.yml --capabilities CAPABILITY_NAMED_IAM
 
 # aws cloudformation describe-stacks --stack-name week2
 
 # aws cloudformation delete-stack --stack-name week2
 
-Description: A template for creating EC2 instance with security group configured with ssh and http access and ability to access S3
+Description: A template for creating EC2 instance with security groups configured with ssh and http access and ability to access S3
 
 Parameters:
   EC2InstanceType:

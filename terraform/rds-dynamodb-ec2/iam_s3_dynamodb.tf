@@ -4,7 +4,7 @@ resource "aws_iam_instance_profile" "instance_profile" {
 }
 
 resource "aws_iam_role" "iam-role" {
-  name = "iam-role"
+  name = "test_iam_role"
 
   assume_role_policy = <<EOF
 {
@@ -23,8 +23,8 @@ resource "aws_iam_role" "iam-role" {
   EOF
 }
 
-resource "aws_iam_role_policy" "s3_bucket_policy" {
-  name = "s3_bucket_policy"
+resource "aws_iam_role_policy" "s3_dynamodb_policy" {
+  name = "s3_dynamodb_policy"
   role = aws_iam_role.iam-role.id
 
   policy = <<EOF
@@ -35,8 +35,16 @@ resource "aws_iam_role_policy" "s3_bucket_policy" {
             "Effect": "Allow",
             "Action": "s3:*",
             "Resource": "*"
-        }
+        }, 
+        {
+        "Action": [
+          "dynamoDb:*"
+        ],
+        "Effect": "Allow",
+        "Resource": "*"
+      }
     ]
 }
+
   EOF
 }

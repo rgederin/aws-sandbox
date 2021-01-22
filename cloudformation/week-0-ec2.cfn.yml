@@ -1,4 +1,4 @@
-# aws cloudformation create-stack --stack-name week0 --template-body file:///Users/rgederin/github/aws-sandbox/cloudformation/week-0-ec2.cfn.yml
+# aws cloudformation create-stack --stack-name week0 --template-body file:///{full path to the cloudformation file}/week-0-ec2.cfn.yml
 
 # aws cloudformation describe-stacks --stack-name week0
 
@@ -30,5 +30,5 @@ Resources:
 
 Outputs:
   PublicIp:
-    Description: EC2Instance public IP
+    Description: EC2 Instance public IP
     Value: !GetAtt EC2Instance.PublicIp
