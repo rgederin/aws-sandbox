@@ -1,6 +1,5 @@
 resource "aws_security_group" "ingress_ssh" {
   name = "ingress_ssh"
-
   ingress {
     from_port = 22
     protocol  = "tcp"
@@ -12,7 +11,6 @@ resource "aws_security_group" "ingress_ssh" {
 
 resource "aws_security_group" "ingress_http" {
   name = "ingress_http"
-
   ingress {
     from_port = 80
     protocol  = "tcp"
@@ -23,10 +21,7 @@ resource "aws_security_group" "ingress_http" {
 }
 
 resource "aws_security_group" "ingress_rds" {
-  name        = "ingress_rds"
-  description = "ingress_rds"
-
-  # postgres access from anywhere
+  name = "ingress_rds"
   ingress {
     from_port   = 5432
     to_port     = 5432
@@ -37,7 +32,6 @@ resource "aws_security_group" "ingress_rds" {
 
 resource "aws_security_group" "egress_all" {
   name = "egress_all"
-
   egress {
     from_port = 0
     to_port   = 0

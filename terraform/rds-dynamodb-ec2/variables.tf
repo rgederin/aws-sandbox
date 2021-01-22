@@ -25,20 +25,45 @@ variable "key_name" {
   default     = "rgederin-us-west-1"
 }
 
+variable "dynamodb_table_name" {
+  description = "DynamoDB table name"
+  type        = string
+  default     = "course-trainers-dynamo-db"
+}
+
+variable "rds_engine" {
+  description = "Engine using by RDS"
+  type        = string
+  default     = "postgres"
+}
+
+variable "rds_username" {
+  description = "Username for RDS instance"
+  type        = string
+  default     = "postgres"
+}
+
+variable "rds_password" {
+  description = "Password for RDS instance"
+  type        = string
+  default     = "postgres"
+  # sensitive   = true
+}
+
 variable "s3_bucket_name" {
   description = "Name of S3 bucket from where file should be downloaded"
   type        = string
-  default     = "rgederin-bucket"
+  default     = "rgederin-bucket-week3"
 }
 
-variable "s3_file_key" {
-  description = "Name of the file in S3 bucket which should be downloaded"
+variable "s3_sql_script_file_name" {
+  description = "Name of the SQL script in S3"
   type        = string
-  default     = "rgederin-s3-file.txt"
+  default     = "rds-script.sql"
 }
 
-variable "destination_file_name" {
-  description = "Name of the file in EC2 instance"
+variable "s3_dynamodb_script_file_name" {
+  description = "Name of the DynamoDb script in S3"
   type        = string
-  default     = "rgederin-s3-file.txt"
+  default     = "dynamodb-script.sh"
 }

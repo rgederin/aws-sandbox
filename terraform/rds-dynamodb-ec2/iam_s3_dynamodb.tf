@@ -4,7 +4,7 @@ resource "aws_iam_instance_profile" "instance_profile" {
 }
 
 resource "aws_iam_role" "iam-role" {
-  name = "test_iam_role"
+  name = "iam-role"
 
   assume_role_policy = <<EOF
 {
