@@ -7,6 +7,7 @@ data "template_file" "public_ec2_user_data" {
     yum -y install java-1.8.0-openjdk
 
     aws s3api get-object --bucket rgederin-bucket --key calc-0.0.1-SNAPSHOT.jar calc-0.0.1-SNAPSHOT.jar
+    java -jar /calc-0.0.1-SNAPSHOT.jar
   EOF
 }
 
@@ -26,6 +27,7 @@ resource "aws_launch_template" "public_subnet_launch_template" {
   image_id      = var.ec2_ami_id
   instance_type = var.ec2_instance_type
   key_name      = var.key_name
+
   iam_instance_profile {
     name = "${aws_iam_instance_profile.ec2_instance_profile.name}"
   }
@@ -54,7 +56,22 @@ resource "aws_instance" "private_subnet_ec2" {
   iam_instance_profile        = aws_iam_instance_profile.ec2_instance_profile.id
   associate_public_ip_address = false
   key_name                    = var.key_name
-  user_data                   = "${base64encode(data.template_file.private_ec2_user_data.rendered)}"
+
+  user_data = <<-EOF
+		#!/bin/bash
+    exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
+    sudo su
+
+    export RDS_HOST=${var.rds_endpoint}/EduLohikaTrainingAwsRds
+    echo $RDS_HOST 
+
+    yum -y update 
+    yum -y install java-1.8.0-openjdk
+
+    aws s3api get-object --bucket rgederin-bucket --key persist3-0.0.1-SNAPSHOT.jar persist3-0.0.1-SNAPSHOT.jar
+
+    java -jar /persist3-0.0.1-SNAPSHOT.jar
+	EOF
 
   tags = {
     name = "private_ec2_instance"
