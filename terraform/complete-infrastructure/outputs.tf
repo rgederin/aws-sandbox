@@ -1,5 +1,5 @@
-output "rds_endpoint" {
-  value = module.postgres_instance.rds_endpoint
+output "rds_address" {
+  value = module.postgres_instance.rds_address
 }
 
 output "sns_topic_arn" {

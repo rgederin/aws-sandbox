@@ -25,6 +25,7 @@ resource "aws_lb" "application_load_balancer" {
   name               = "load-balancer"
   load_balancer_type = "application"
   security_groups    = [aws_security_group.public_subnet_security_group.id]
-  subnets            = [var.public_subnet_id, var.private_subnet_id]
+  # subnets            = [var.public_subnet_id, var.private_subnet_id]
+  subnets = [var.public_subnet_id, var.private_subnet_id]
 }
 

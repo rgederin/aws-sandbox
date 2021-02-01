@@ -3,7 +3,7 @@ variable "AWS_SECRET_KEY" {}
 
 variable "AWS_REGION" {
   type    = string
-  default = "us-west-1"
+  default = "us-west-2"
 }
 
 variable "dynamodb_table_name" {
@@ -53,27 +53,37 @@ variable "public_subnet_cidr_block" {
 
 variable "public_subnet_az" {
   type    = string
-  default = "us-west-1a"
+  default = "us-west-2a"
 }
 
-variable "private_subnet_cidr_block" {
+variable "private_subnet_1_cidr_block" {
   type    = string
   default = "10.0.2.0/24"
 }
 
-variable "private_subnet_az" {
+variable "private_subnet_1_az" {
   type    = string
-  default = "us-west-1b"
+  default = "us-west-2b"
+}
+
+variable "private_subnet_2_az" {
+  type    = string
+  default = "us-west-2c"
+}
+
+variable "private_subnet_2_cidr_block" {
+  type    = string
+  default = "10.0.3.0/24"
 }
 
 variable "ec2_ami_id" {
   type    = string
-  default = "ami-08d9a394ac1c2994c"
+  default = "ami-0e999cbd62129e3b1"
 }
 
 variable "nat_ec2_ami_id" {
   type    = string
-  default = "ami-004b0f60"
+  default = "ami-0032ea5ae08aa27a2"
 }
 
 variable "ec2_instance_type" {
@@ -83,5 +93,5 @@ variable "ec2_instance_type" {
 
 variable "key_name" {
   type    = string
-  default = "rgederin-us-west-1"
+  default = "rgederin-us-west-2"
 }

@@ -7,19 +7,7 @@ data "template_file" "public_ec2_user_data" {
     yum -y install java-1.8.0-openjdk
 
     aws s3api get-object --bucket rgederin-bucket --key calc-0.0.1-SNAPSHOT.jar calc-0.0.1-SNAPSHOT.jar
-    java -jar /calc-0.0.1-SNAPSHOT.jar
-  EOF
-}
-
-data "template_file" "private_ec2_user_data" {
-  template = <<EOF
-  	#!/bin/bash
-    sudo su
-
-    yum -y update 
-    yum -y install java-1.8.0-openjdk
-
-    aws s3api get-object --bucket rgederin-bucket --key persist3-0.0.1-SNAPSHOT.jar persist3-0.0.1-SNAPSHOT.jar
+    java -jar calc-0.0.1-SNAPSHOT.jar
   EOF
 }
 
@@ -42,6 +30,7 @@ resource "aws_autoscaling_group" "public_subnet_autoscalling_group" {
 
   vpc_zone_identifier = [var.public_subnet_id]
   target_group_arns   = [aws_lb_target_group.load_balancer_target_group.arn]
+
   launch_template {
     id      = aws_launch_template.public_subnet_launch_template.id
     version = "$Latest"
@@ -59,18 +48,16 @@ resource "aws_instance" "private_subnet_ec2" {
 
   user_data = <<-EOF
 		#!/bin/bash
-    exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
     sudo su
 
-    export RDS_HOST=${var.rds_endpoint}/EduLohikaTrainingAwsRds
+    export RDS_HOST=${var.rds_address}
     echo $RDS_HOST 
 
     yum -y update 
     yum -y install java-1.8.0-openjdk
+    aws s3api get-object --bucket rgederin-bucket --key persist3-2021-0.0.1-SNAPSHOT.jar persist3-2021-0.0.1-SNAPSHOT.jar
 
-    aws s3api get-object --bucket rgederin-bucket --key persist3-0.0.1-SNAPSHOT.jar persist3-0.0.1-SNAPSHOT.jar
-
-    java -jar /persist3-0.0.1-SNAPSHOT.jar
+    java -jar persist3-2021-0.0.1-SNAPSHOT.jar
 	EOF
 
   tags = {

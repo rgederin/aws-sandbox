@@ -8,13 +8,18 @@ resource "aws_db_instance" "postgres_instance" {
   username               = var.rds_username
   password               = var.rds_password
   vpc_security_group_ids = [aws_security_group.postgres_security_group.id]
+  db_subnet_group_name   = aws_db_subnet_group.db_subnet_group.id
   skip_final_snapshot    = true
   publicly_accessible    = true
 }
 
-resource "aws_security_group" "postgres_security_group" {
-  name = "postgres_security_group"
+resource "aws_db_subnet_group" "db_subnet_group" {
+  subnet_ids = [var.private_subnet_1_id, var.private_subnet_2_id]
+}
 
+resource "aws_security_group" "postgres_security_group" {
+  name   = "postgres_security_group"
+  vpc_id = var.vpc_id
   # postgres access from anywhere
   ingress {
     from_port   = 5432

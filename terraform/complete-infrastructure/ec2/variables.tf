@@ -31,7 +31,7 @@ variable "private_subnet_id" {
   type = string
 }
 
-variable "rds_endpoint" {
+variable "rds_address" {
   type = string
 }
 

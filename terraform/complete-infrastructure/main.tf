@@ -3,15 +3,6 @@ module "dynamodb_table" {
   dynamodb_table_name = var.dynamodb_table_name
 }
 
-module "postgres_instance" {
-  source = "./rds"
-
-  rds_engine   = var.rds_engine
-  rds_username = var.rds_username
-  rds_password = var.rds_password
-  rds_db_name  = var.rds_db_name
-}
-
 module "messaging" {
   source = "./messaging"
 
@@ -22,11 +13,25 @@ module "messaging" {
 module "vpc" {
   source = "./vpc"
 
-  vpc_cidr_block            = var.vpc_cidr_block
-  public_subnet_cidr_block  = var.public_subnet_cidr_block
-  public_subnet_az          = var.public_subnet_az
-  private_subnet_cidr_block = var.private_subnet_cidr_block
-  private_subnet_az         = var.private_subnet_az
+  vpc_cidr_block              = var.vpc_cidr_block
+  public_subnet_cidr_block    = var.public_subnet_cidr_block
+  public_subnet_az            = var.public_subnet_az
+  private_subnet_1_cidr_block = var.private_subnet_1_cidr_block
+  private_subnet_1_az         = var.private_subnet_1_az
+  private_subnet_2_cidr_block = var.private_subnet_2_cidr_block
+  private_subnet_2_az         = var.private_subnet_2_az
+}
+
+module "postgres_instance" {
+  source = "./rds"
+
+  rds_engine          = var.rds_engine
+  rds_username        = var.rds_username
+  rds_password        = var.rds_password
+  rds_db_name         = var.rds_db_name
+  private_subnet_1_id = module.vpc.private_subnet_1_id
+  private_subnet_2_id = module.vpc.private_subnet_2_id
+  vpc_id              = module.vpc.vpc_id
 }
 
 module "ec2" {
@@ -39,8 +44,8 @@ module "ec2" {
   vpc_cidr_block    = var.vpc_cidr_block
   vpc_id            = module.vpc.vpc_id
   public_subnet_id  = module.vpc.public_subnet_id
-  private_subnet_id = module.vpc.private_subnet_id
-  rds_endpoint      = module.postgres_instance.rds_endpoint
+  private_subnet_id = module.vpc.private_subnet_1_id
+  rds_address       = module.postgres_instance.rds_address
 }
 
 module "routing" {
