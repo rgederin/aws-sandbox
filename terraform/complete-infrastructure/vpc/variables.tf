@@ -2,26 +2,34 @@ variable "vpc_cidr_block" {
   type = string
 }
 
-variable "public_subnet_cidr_block" {
+variable "first_public_subnet_cidr_block" {
   type = string
 }
 
-variable "public_subnet_az" {
+variable "first_public_subnet_az" {
   type = string
 }
 
-variable "private_subnet_1_cidr_block" {
+variable "second_public_subnet_cidr_block" {
   type = string
 }
 
-variable "private_subnet_1_az" {
+variable "second_public_subnet_az" {
   type = string
 }
 
-variable "private_subnet_2_cidr_block" {
+variable "first_private_subnet_cidr_block" {
   type = string
 }
 
-variable "private_subnet_2_az" {
+variable "first_private_subnet_az" {
+  type = string
+}
+
+variable "second_private_subnet_cidr_block" {
+  type = string
+}
+
+variable "second_private_subnet_az" {
   type = string
 }

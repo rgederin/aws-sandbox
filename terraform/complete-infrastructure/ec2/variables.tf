@@ -23,7 +23,11 @@ variable "vpc_cidr_block" {
   type = string
 }
 
-variable "public_subnet_id" {
+variable "first_public_subnet_id" {
+  type = string
+}
+
+variable "second_public_subnet_id" {
   type = string
 }
 

@@ -10,7 +10,10 @@ variable "nat_ec2_instance_id" {
   type = string
 }
 
-variable "public_subnet_id" {
+variable "first_public_subnet_id" {
   type = string
 }
 
+variable "second_public_subnet_id" {
+  type = string
+}

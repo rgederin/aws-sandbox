@@ -46,34 +46,44 @@ variable "vpc_cidr_block" {
   default = "10.0.0.0/16"
 }
 
-variable "public_subnet_cidr_block" {
+variable "first_public_subnet_cidr_block" {
   type    = string
   default = "10.0.1.0/24"
 }
 
-variable "public_subnet_az" {
+variable "first_public_subnet_az" {
   type    = string
   default = "us-west-2a"
 }
 
-variable "private_subnet_1_cidr_block" {
+variable "second_public_subnet_cidr_block" {
   type    = string
   default = "10.0.2.0/24"
 }
 
-variable "private_subnet_1_az" {
+variable "second_public_subnet_az" {
   type    = string
   default = "us-west-2b"
 }
 
-variable "private_subnet_2_az" {
+variable "first_private_subnet_cidr_block" {
+  type    = string
+  default = "10.0.3.0/24"
+}
+
+variable "first_private_subnet_az" {
+  type    = string
+  default = "us-west-2b"
+}
+
+variable "second_private_subnet_az" {
   type    = string
   default = "us-west-2c"
 }
 
-variable "private_subnet_2_cidr_block" {
+variable "second_private_subnet_cidr_block" {
   type    = string
-  default = "10.0.3.0/24"
+  default = "10.0.4.0/24"
 }
 
 variable "ec2_ami_id" {

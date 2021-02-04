@@ -8,35 +8,44 @@ resource "aws_vpc" "vpc" {
   }
 }
 
-resource "aws_subnet" "public_subnet" {
+resource "aws_subnet" "first_public_subnet" {
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = var.public_subnet_cidr_block
-  availability_zone       = var.public_subnet_az
+  cidr_block              = var.first_public_subnet_cidr_block
+  availability_zone       = var.first_public_subnet_az
   map_public_ip_on_launch = true
 
   tags = {
-    name = "public_subnet"
+    name = "first_public_subnet"
   }
 }
 
-resource "aws_subnet" "private_subnet_1" {
+resource "aws_subnet" "second_public_subnet" {
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = var.private_subnet_1_cidr_block
-  availability_zone       = var.private_subnet_1_az
+  cidr_block              = var.second_public_subnet_cidr_block
+  availability_zone       = var.second_public_subnet_az
   map_public_ip_on_launch = true
 
   tags = {
-    name = "private_subnet 1"
+    name = "second_public_subnet"
   }
 }
 
-resource "aws_subnet" "private_subnet_2" {
-  vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = var.private_subnet_2_cidr_block
-  availability_zone       = var.private_subnet_2_az
-  map_public_ip_on_launch = true
+resource "aws_subnet" "first_private_subnet" {
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = var.first_private_subnet_cidr_block
+  availability_zone = var.first_private_subnet_az
 
   tags = {
-    name = "private_subnet 2"
+    name = "first_private_subnet"
+  }
+}
+
+resource "aws_subnet" "second_private_subnet" {
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = var.second_private_subnet_cidr_block
+  availability_zone = var.second_private_subnet_az
+
+  tags = {
+    name = "second_private_subnet"
   }
 }
