@@ -1,6 +1,6 @@
 import { Template, Capture } from 'aws-cdk-lib/assertions';
 import * as cdk from 'aws-cdk-lib';
-import { BmiNotification } from '../lib/messaging/notification';
+import { BmiNotification } from '../lib/messaging/sns-notification';
 
 test('Bmi Topic Created', () => {
   const stack = new cdk.Stack();

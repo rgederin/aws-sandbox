@@ -9,32 +9,22 @@ export interface BmiLogTableProps {
     type: dynamodb.AttributeType;
   };
   capacity?: number;
-  billingMode?: dynamodb.BillingMode;
-  removalPolicy?: cdk.RemovalPolicy;
-  pointInTimeRecovery?: boolean;
 }
 
 export class BmiLogTable extends Construct {
   constructor(scope: Construct, id: string, props: BmiLogTableProps) {
     super(scope, 'rgd-'.concat(id));
 
-    const {
-      tableName,
-      partitionKey,
-      capacity,
-      billingMode,
-      removalPolicy,
-      pointInTimeRecovery,
-    } = props;
+    const { tableName, partitionKey, capacity } = props;
 
     return new dynamodb.Table(this, id, {
       tableName: 'rgd-'.concat(tableName),
       partitionKey: partitionKey,
       readCapacity: capacity ? capacity : 5,
       writeCapacity: capacity ? capacity : 5,
-      billingMode: billingMode ? billingMode : dynamodb.BillingMode.PROVISIONED,
-      removalPolicy: removalPolicy ? removalPolicy : cdk.RemovalPolicy.DESTROY,
-      pointInTimeRecovery: pointInTimeRecovery ? pointInTimeRecovery : true,
+      billingMode: dynamodb.BillingMode.PROVISIONED,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      pointInTimeRecovery: true,
     });
   }
 }

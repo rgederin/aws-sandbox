@@ -1,6 +1,6 @@
 {
   "Resources": {
-    "mycdkvpc037DA4AF": {
+    "rgdbmivpc30981C49": {
       "Type": "AWS::EC2::VPC",
       "Properties": {
         "CidrBlock": "10.0.0.0/16",
@@ -10,20 +10,20 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": "CdkAppStack/my-cdk-vpc"
+            "Value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/my-cdk-vpc/Resource"
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/Resource"
       }
     },
-    "mycdkvpcpublicsubnetSubnet1Subnet6CFAF919": {
+    "rgdbmivpcrgdbmipublicsubnetSubnet1Subnet9CDCE4D1": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
         "CidrBlock": "10.0.0.0/24",
         "VpcId": {
-          "Ref": "mycdkvpc037DA4AF"
+          "Ref": "rgdbmivpc30981C49"
         },
         "AvailabilityZone": {
           "Fn::Select": [
@@ -37,7 +37,7 @@
         "Tags": [
           {
             "Key": "aws-cdk:subnet-name",
-            "Value": "public-subnet"
+            "Value": "rgd-bmi-public-subnet"
           },
           {
             "Key": "aws-cdk:subnet-type",
@@ -45,69 +45,69 @@
           },
           {
             "Key": "Name",
-            "Value": "CdkAppStack/my-cdk-vpc/public-subnetSubnet1"
+            "Value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/my-cdk-vpc/public-subnetSubnet1/Subnet"
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1/Subnet"
       }
     },
-    "mycdkvpcpublicsubnetSubnet1RouteTableAB2ECDF5": {
+    "rgdbmivpcrgdbmipublicsubnetSubnet1RouteTable974743B5": {
       "Type": "AWS::EC2::RouteTable",
       "Properties": {
         "VpcId": {
-          "Ref": "mycdkvpc037DA4AF"
+          "Ref": "rgdbmivpc30981C49"
         },
         "Tags": [
           {
             "Key": "Name",
-            "Value": "CdkAppStack/my-cdk-vpc/public-subnetSubnet1"
+            "Value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/my-cdk-vpc/public-subnetSubnet1/RouteTable"
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1/RouteTable"
       }
     },
-    "mycdkvpcpublicsubnetSubnet1RouteTableAssociationF04057A8": {
+    "rgdbmivpcrgdbmipublicsubnetSubnet1RouteTableAssociation1A85EF38": {
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
       "Properties": {
         "RouteTableId": {
-          "Ref": "mycdkvpcpublicsubnetSubnet1RouteTableAB2ECDF5"
+          "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1RouteTable974743B5"
         },
         "SubnetId": {
-          "Ref": "mycdkvpcpublicsubnetSubnet1Subnet6CFAF919"
+          "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1Subnet9CDCE4D1"
         }
       },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/my-cdk-vpc/public-subnetSubnet1/RouteTableAssociation"
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1/RouteTableAssociation"
       }
     },
-    "mycdkvpcpublicsubnetSubnet1DefaultRoute51A5D7B9": {
+    "rgdbmivpcrgdbmipublicsubnetSubnet1DefaultRoute8E591311": {
       "Type": "AWS::EC2::Route",
       "Properties": {
         "RouteTableId": {
-          "Ref": "mycdkvpcpublicsubnetSubnet1RouteTableAB2ECDF5"
+          "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1RouteTable974743B5"
         },
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": {
-          "Ref": "mycdkvpcIGW4220D5A9"
+          "Ref": "rgdbmivpcIGWDD404358"
         }
       },
       "DependsOn": [
-        "mycdkvpcVPCGW2444B783"
+        "rgdbmivpcVPCGWA32B6FCC"
       ],
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/my-cdk-vpc/public-subnetSubnet1/DefaultRoute"
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1/DefaultRoute"
       }
     },
-    "mycdkvpcpublicsubnetSubnet2Subnet954E6D78": {
+    "rgdbmivpcrgdbmipublicsubnetSubnet2Subnet37D95C2B": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
         "CidrBlock": "10.0.1.0/24",
         "VpcId": {
-          "Ref": "mycdkvpc037DA4AF"
+          "Ref": "rgdbmivpc30981C49"
         },
         "AvailabilityZone": {
           "Fn::Select": [
@@ -121,7 +121,7 @@
         "Tags": [
           {
             "Key": "aws-cdk:subnet-name",
-            "Value": "public-subnet"
+            "Value": "rgd-bmi-public-subnet"
           },
           {
             "Key": "aws-cdk:subnet-type",
@@ -129,95 +129,227 @@
           },
           {
             "Key": "Name",
-            "Value": "CdkAppStack/my-cdk-vpc/public-subnetSubnet2"
+            "Value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet2"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/my-cdk-vpc/public-subnetSubnet2/Subnet"
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet2/Subnet"
       }
     },
-    "mycdkvpcpublicsubnetSubnet2RouteTableF309CDEE": {
+    "rgdbmivpcrgdbmipublicsubnetSubnet2RouteTableCCFF5F04": {
       "Type": "AWS::EC2::RouteTable",
       "Properties": {
         "VpcId": {
-          "Ref": "mycdkvpc037DA4AF"
+          "Ref": "rgdbmivpc30981C49"
         },
         "Tags": [
           {
             "Key": "Name",
-            "Value": "CdkAppStack/my-cdk-vpc/public-subnetSubnet2"
+            "Value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet2"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/my-cdk-vpc/public-subnetSubnet2/RouteTable"
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet2/RouteTable"
       }
     },
-    "mycdkvpcpublicsubnetSubnet2RouteTableAssociation71F09988": {
+    "rgdbmivpcrgdbmipublicsubnetSubnet2RouteTableAssociationC53A7DD2": {
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
       "Properties": {
         "RouteTableId": {
-          "Ref": "mycdkvpcpublicsubnetSubnet2RouteTableF309CDEE"
+          "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet2RouteTableCCFF5F04"
         },
         "SubnetId": {
-          "Ref": "mycdkvpcpublicsubnetSubnet2Subnet954E6D78"
+          "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet2Subnet37D95C2B"
         }
       },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/my-cdk-vpc/public-subnetSubnet2/RouteTableAssociation"
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet2/RouteTableAssociation"
       }
     },
-    "mycdkvpcpublicsubnetSubnet2DefaultRoute7893367F": {
+    "rgdbmivpcrgdbmipublicsubnetSubnet2DefaultRouteF5D94D78": {
       "Type": "AWS::EC2::Route",
       "Properties": {
         "RouteTableId": {
-          "Ref": "mycdkvpcpublicsubnetSubnet2RouteTableF309CDEE"
+          "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet2RouteTableCCFF5F04"
         },
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": {
-          "Ref": "mycdkvpcIGW4220D5A9"
+          "Ref": "rgdbmivpcIGWDD404358"
         }
       },
       "DependsOn": [
-        "mycdkvpcVPCGW2444B783"
+        "rgdbmivpcVPCGWA32B6FCC"
       ],
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/my-cdk-vpc/public-subnetSubnet2/DefaultRoute"
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet2/DefaultRoute"
       }
     },
-    "mycdkvpcIGW4220D5A9": {
+    "rgdbmivpcrgdbmiprivatesubnet1Subnet1Subnet11B9D644": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.2.0/24",
+        "VpcId": {
+          "Ref": "rgdbmivpc30981C49"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "rgd-bmi-private-subnet-1"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Isolated"
+          },
+          {
+            "Key": "Name",
+            "Value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet1/Subnet"
+      }
+    },
+    "rgdbmivpcrgdbmiprivatesubnet1Subnet1RouteTableC8B705E0": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "rgdbmivpc30981C49"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet1/RouteTable"
+      }
+    },
+    "rgdbmivpcrgdbmiprivatesubnet1Subnet1RouteTableAssociationCFACAA09": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "rgdbmivpcrgdbmiprivatesubnet1Subnet1RouteTableC8B705E0"
+        },
+        "SubnetId": {
+          "Ref": "rgdbmivpcrgdbmiprivatesubnet1Subnet1Subnet11B9D644"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet1/RouteTableAssociation"
+      }
+    },
+    "rgdbmivpcrgdbmiprivatesubnet1Subnet2SubnetE5B80C3E": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.3.0/24",
+        "VpcId": {
+          "Ref": "rgdbmivpc30981C49"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "rgd-bmi-private-subnet-1"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Isolated"
+          },
+          {
+            "Key": "Name",
+            "Value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet2/Subnet"
+      }
+    },
+    "rgdbmivpcrgdbmiprivatesubnet1Subnet2RouteTable2E3A0DC1": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "rgdbmivpc30981C49"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet2/RouteTable"
+      }
+    },
+    "rgdbmivpcrgdbmiprivatesubnet1Subnet2RouteTableAssociation0F3637BF": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "rgdbmivpcrgdbmiprivatesubnet1Subnet2RouteTable2E3A0DC1"
+        },
+        "SubnetId": {
+          "Ref": "rgdbmivpcrgdbmiprivatesubnet1Subnet2SubnetE5B80C3E"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet2/RouteTableAssociation"
+      }
+    },
+    "rgdbmivpcIGWDD404358": {
       "Type": "AWS::EC2::InternetGateway",
       "Properties": {
         "Tags": [
           {
             "Key": "Name",
-            "Value": "CdkAppStack/my-cdk-vpc"
+            "Value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/my-cdk-vpc/IGW"
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/IGW"
       }
     },
-    "mycdkvpcVPCGW2444B783": {
+    "rgdbmivpcVPCGWA32B6FCC": {
       "Type": "AWS::EC2::VPCGatewayAttachment",
       "Properties": {
         "VpcId": {
-          "Ref": "mycdkvpc037DA4AF"
+          "Ref": "rgdbmivpc30981C49"
         },
         "InternetGatewayId": {
-          "Ref": "mycdkvpcIGW4220D5A9"
+          "Ref": "rgdbmivpcIGWDD404358"
         }
       },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/my-cdk-vpc/VPCGW"
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/VPCGW"
       }
     },
-    "publicsecuritygroupE69046BE": {
+    "rgdpublicsecuritygroup6949B66D": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
-        "GroupDescription": "CdkAppStack/public-security-group",
+        "GroupDescription": "CdkAppStack/rgd-public-security-group/rgd-public-security-group",
         "SecurityGroupEgress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -249,14 +381,14 @@
           }
         ],
         "VpcId": {
-          "Ref": "mycdkvpc037DA4AF"
+          "Ref": "rgdbmivpc30981C49"
         }
       },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/public-security-group/Resource"
+        "aws:cdk:path": "CdkAppStack/rgd-public-security-group/rgd-public-security-group/Resource"
       }
     },
-    "s3readonlyroleBA2D69D1": {
+    "rgdpublicec2az1InstanceRole882A39C2": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -281,39 +413,31 @@
           ],
           "Version": "2012-10-17"
         },
-        "ManagedPolicyArns": [
+        "Tags": [
           {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":iam::aws:policy/AmazonS3ReadOnlyAccess"
-              ]
-            ]
+            "Key": "Name",
+            "Value": "CdkAppStack/rgd-public-ec2-az1/rgd-public-ec2-az1"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/s3-readonly-role/Resource"
+        "aws:cdk:path": "CdkAppStack/rgd-public-ec2-az1/rgd-public-ec2-az1/InstanceRole/Resource"
       }
     },
-    "cdkpublicec2InstanceProfileEEA02430": {
+    "rgdpublicec2az1InstanceProfile046D31CB": {
       "Type": "AWS::IAM::InstanceProfile",
       "Properties": {
         "Roles": [
           {
-            "Ref": "s3readonlyroleBA2D69D1"
+            "Ref": "rgdpublicec2az1InstanceRole882A39C2"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/cdk-public-ec2/InstanceProfile"
+        "aws:cdk:path": "CdkAppStack/rgd-public-ec2-az1/rgd-public-ec2-az1/InstanceProfile"
       }
     },
-    "cdkpublicec2509C015E": {
+    "rgdpublicec2az1C5A6F0DB": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
         "AvailabilityZone": {
@@ -325,7 +449,7 @@
           ]
         },
         "IamInstanceProfile": {
-          "Ref": "cdkpublicec2InstanceProfileEEA02430"
+          "Ref": "rgdpublicec2az1InstanceProfile046D31CB"
         },
         "ImageId": {
           "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
@@ -335,35 +459,131 @@
         "SecurityGroupIds": [
           {
             "Fn::GetAtt": [
-              "publicsecuritygroupE69046BE",
+              "rgdpublicsecuritygroup6949B66D",
               "GroupId"
             ]
           }
         ],
         "SubnetId": {
-          "Ref": "mycdkvpcpublicsubnetSubnet1Subnet6CFAF919"
+          "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1Subnet9CDCE4D1"
         },
         "Tags": [
           {
             "Key": "Name",
-            "Value": "CdkAppStack/cdk-public-ec2"
+            "Value": "CdkAppStack/rgd-public-ec2-az1/rgd-public-ec2-az1"
           }
         ],
         "UserData": {
-          "Fn::Base64": "#!/bin/bash\n#!/bin/bash\nyum update -y\n\nsudo amazon-linux-extras install docker\nsudo service docker start\nsudo usermod -a -G docker ec2-user\nsudo chkconfig docker on"
+          "Fn::Base64": "#!/bin/bash"
         }
       },
       "DependsOn": [
-        "s3readonlyroleBA2D69D1"
+        "rgdpublicec2az1InstanceRole882A39C2"
       ],
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/cdk-public-ec2/Resource"
+        "aws:cdk:path": "CdkAppStack/rgd-public-ec2-az1/rgd-public-ec2-az1/Resource"
+      }
+    },
+    "rgdpublicec2az2InstanceRoleD640B954": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "ec2.",
+                      {
+                        "Ref": "AWS::URLSuffix"
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "CdkAppStack/rgd-public-ec2-az2/rgd-public-ec2-az2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-public-ec2-az2/rgd-public-ec2-az2/InstanceRole/Resource"
+      }
+    },
+    "rgdpublicec2az2InstanceProfileCD5D3705": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "rgdpublicec2az2InstanceRoleD640B954"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-public-ec2-az2/rgd-public-ec2-az2/InstanceProfile"
+      }
+    },
+    "rgdpublicec2az2CA94A53E": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "IamInstanceProfile": {
+          "Ref": "rgdpublicec2az2InstanceProfileCD5D3705"
+        },
+        "ImageId": {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+        },
+        "InstanceType": "t2.micro",
+        "KeyName": "rgederin-lohika-2021-us-west-2",
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "rgdpublicsecuritygroup6949B66D",
+              "GroupId"
+            ]
+          }
+        ],
+        "SubnetId": {
+          "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1Subnet9CDCE4D1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "CdkAppStack/rgd-public-ec2-az2/rgd-public-ec2-az2"
+          }
+        ],
+        "UserData": {
+          "Fn::Base64": "#!/bin/bash"
+        }
+      },
+      "DependsOn": [
+        "rgdpublicec2az2InstanceRoleD640B954"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-public-ec2-az2/rgd-public-ec2-az2/Resource"
       }
     },
     "CDKMetadata": {
       "Type": "AWS::CDK::Metadata",
       "Properties": {
-        "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WOT2+CQBDFP4v3ZVtMatKj4WC8ETBezbCM6SjMmN3ZGkP47gXB0p7mzW/+vLe26Yd9X8E9JK6+Jg1VtisV3NUM6NShW9vueHMmO/Mxz0weq4ZcGStGHdmiComKB6gaXPjCtiGII1AS/l0exZ4V/bC5A8U7PGabudvqEOSrRVZTooue9LHzEm9Pg39gz0GB3fxy0r0haG1XyJToVV/j3MuZGux7U2CQ6KfjHDy0OGR6nvwZZMI1jfF7w1KjvYS373RjP226ugSixEdWatEWU/0BsbSLQ1cBAAA="
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WPTW/CMAyGfwv3NFuRhrQj6gFxi9qJK3JToxlaByUOCFX97wsE1u3k14+/Xi91+aHfF3ANhe1ORU+tHhsBe1IJ7Ue0Sz3uzlZVB96ZSpnY9mSb2DLKnc2qdlHwC9oeZz6zdQjOEgg5/m1WxtMFBOcdWxb0SW8SvcLtefSZrSXZ+h6QRTVooye5bbyL58e5f2DLQYAt5pVZT4pg0GPtsr9XfJWNdwfqcZpUjcFFn4cNeBgweXqM/ClUjju6PzMpdh3qY3i7lCv9qcvFMRAVPrLQgLrO8Qc+OM1KZQEAAA=="
       },
       "Metadata": {
         "aws:cdk:path": "CdkAppStack/CDKMetadata/Default"

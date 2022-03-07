@@ -1,6 +1,6 @@
 import { Template, Capture } from 'aws-cdk-lib/assertions';
 import * as cdk from 'aws-cdk-lib';
-import { BmiQueue } from '../lib/messaging/queue';
+import { BmiQueue } from '../lib/messaging/sqs-queue';
 
 test('Bmi Queue Created', () => {
   const stack = new cdk.Stack();
