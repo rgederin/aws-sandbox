@@ -23,7 +23,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1cf431fd27695979d256fe7a03ee5c5f4fd5bb3ea5cbad985751097109882d17.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/cdb2a67e4ce76c5a600a0a9b7cdc2978c616017ba4062fe4a94a1be232c8e55f.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -147,22 +147,34 @@
             "data": "rgdpublicsecuritygroup6949B66D"
           }
         ],
-        "/CdkAppStack/rgd-public-ec2-az1/rgd-public-ec2-az1/InstanceRole/Resource": [
+        "/CdkAppStack/rgd-public-security-group/rgd-public-security-group/from CdkAppStackrgdpublicsecuritygroup133C6FDD:80": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "rgdpublicec2az1InstanceRole882A39C2"
+            "data": "rgdpublicsecuritygroupfromCdkAppStackrgdpublicsecuritygroup133C6FDD807E130879"
           }
         ],
-        "/CdkAppStack/rgd-public-ec2-az1/rgd-public-ec2-az1/InstanceProfile": [
+        "/CdkAppStack/rgd-public-group/rgd-public-group/InstanceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "rgdpublicec2az1InstanceProfile046D31CB"
+            "data": "rgdpublicgroupInstanceRole0F3ECC1B"
           }
         ],
-        "/CdkAppStack/rgd-public-ec2-az1/rgd-public-ec2-az1/Resource": [
+        "/CdkAppStack/rgd-public-group/rgd-public-group/InstanceProfile": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "rgdpublicec2az1C5A6F0DB"
+            "data": "rgdpublicgroupInstanceProfileEFF63219"
+          }
+        ],
+        "/CdkAppStack/rgd-public-group/rgd-public-group/LaunchConfig": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdpublicgroupLaunchConfig2B990A9D"
+          }
+        ],
+        "/CdkAppStack/rgd-public-group/rgd-public-group/ASG": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdpublicgroupASG51AD7B35"
           }
         ],
         "/CdkAppStack/SsmParameterValue:--aws--service--ami-amazon-linux-latest--amzn2-ami-hvm-x86_64-gp2:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
@@ -171,22 +183,34 @@
             "data": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
-        "/CdkAppStack/rgd-public-ec2-az2/rgd-public-ec2-az2/InstanceRole/Resource": [
+        "/CdkAppStack/rgd-load-balancer/alb/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "rgdpublicec2az2InstanceRoleD640B954"
+            "data": "rgdloadbalanceralbCCFB5A92"
           }
         ],
-        "/CdkAppStack/rgd-public-ec2-az2/rgd-public-ec2-az2/InstanceProfile": [
+        "/CdkAppStack/rgd-load-balancer/alb/Listener/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "rgdpublicec2az2InstanceProfileCD5D3705"
+            "data": "rgdloadbalanceralbListener4517D467"
           }
         ],
-        "/CdkAppStack/rgd-public-ec2-az2/rgd-public-ec2-az2/Resource": [
+        "/CdkAppStack/rgd-load-balancer/alb/Listener/default-targetGroup/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "rgdpublicec2az2CA94A53E"
+            "data": "rgdloadbalanceralbListenerdefaulttargetGroupC25B40C9"
+          }
+        ],
+        "/CdkAppStack/rgd-load-balancer/alb/Listener/--staticRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdloadbalanceralbListenerstaticRuleA333A5CB"
+          }
+        ],
+        "/CdkAppStack/rgd-load-balancer/albDNS": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdloadbalanceralbDNSF4419F82"
           }
         ],
         "/CdkAppStack/CDKMetadata/Default": [

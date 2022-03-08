@@ -388,7 +388,31 @@
         "aws:cdk:path": "CdkAppStack/rgd-public-security-group/rgd-public-security-group/Resource"
       }
     },
-    "rgdpublicec2az1InstanceRole882A39C2": {
+    "rgdpublicsecuritygroupfromCdkAppStackrgdpublicsecuritygroup133C6FDD807E130879": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "FromPort": 80,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "rgdpublicsecuritygroup6949B66D",
+            "GroupId"
+          ]
+        },
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "rgdpublicsecuritygroup6949B66D",
+            "GroupId"
+          ]
+        },
+        "ToPort": 80
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-public-security-group/rgd-public-security-group/from CdkAppStackrgdpublicsecuritygroup133C6FDD:80"
+      }
+    },
+    "rgdpublicgroupInstanceRole0F3ECC1B": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -416,47 +440,39 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": "CdkAppStack/rgd-public-ec2-az1/rgd-public-ec2-az1"
+            "Value": "CdkAppStack/rgd-public-group/rgd-public-group"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/rgd-public-ec2-az1/rgd-public-ec2-az1/InstanceRole/Resource"
+        "aws:cdk:path": "CdkAppStack/rgd-public-group/rgd-public-group/InstanceRole/Resource"
       }
     },
-    "rgdpublicec2az1InstanceProfile046D31CB": {
+    "rgdpublicgroupInstanceProfileEFF63219": {
       "Type": "AWS::IAM::InstanceProfile",
       "Properties": {
         "Roles": [
           {
-            "Ref": "rgdpublicec2az1InstanceRole882A39C2"
+            "Ref": "rgdpublicgroupInstanceRole0F3ECC1B"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/rgd-public-ec2-az1/rgd-public-ec2-az1/InstanceProfile"
+        "aws:cdk:path": "CdkAppStack/rgd-public-group/rgd-public-group/InstanceProfile"
       }
     },
-    "rgdpublicec2az1C5A6F0DB": {
-      "Type": "AWS::EC2::Instance",
+    "rgdpublicgroupLaunchConfig2B990A9D": {
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
       "Properties": {
-        "AvailabilityZone": {
-          "Fn::Select": [
-            0,
-            {
-              "Fn::GetAZs": ""
-            }
-          ]
-        },
-        "IamInstanceProfile": {
-          "Ref": "rgdpublicec2az1InstanceProfile046D31CB"
-        },
         "ImageId": {
           "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
         },
         "InstanceType": "t2.micro",
+        "IamInstanceProfile": {
+          "Ref": "rgdpublicgroupInstanceProfileEFF63219"
+        },
         "KeyName": "rgederin-lohika-2021-us-west-2",
-        "SecurityGroupIds": [
+        "SecurityGroups": [
           {
             "Fn::GetAtt": [
               "rgdpublicsecuritygroup6949B66D",
@@ -464,95 +480,66 @@
             ]
           }
         ],
-        "SubnetId": {
-          "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1Subnet9CDCE4D1"
-        },
-        "Tags": [
-          {
-            "Key": "Name",
-            "Value": "CdkAppStack/rgd-public-ec2-az1/rgd-public-ec2-az1"
-          }
-        ],
         "UserData": {
-          "Fn::Base64": "#!/bin/bash"
+          "Fn::Base64": "#!/bin/bash\nsudo su\nyum install -y httpd\nsystemctl start httpd\nsystemctl enable httpd\necho \"<h1>Hello World from $(hostname -f)</h1>\" > /var/www/html/index.html"
         }
       },
       "DependsOn": [
-        "rgdpublicec2az1InstanceRole882A39C2"
+        "rgdpublicgroupInstanceRole0F3ECC1B"
       ],
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/rgd-public-ec2-az1/rgd-public-ec2-az1/Resource"
+        "aws:cdk:path": "CdkAppStack/rgd-public-group/rgd-public-group/LaunchConfig"
       }
     },
-    "rgdpublicec2az2InstanceRoleD640B954": {
-      "Type": "AWS::IAM::Role",
+    "rgdpublicgroupASG51AD7B35": {
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
       "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "ec2.",
-                      {
-                        "Ref": "AWS::URLSuffix"
-                      }
-                    ]
-                  ]
-                }
-              }
-            }
-          ],
-          "Version": "2012-10-17"
+        "MaxSize": "2",
+        "MinSize": "2",
+        "LaunchConfigurationName": {
+          "Ref": "rgdpublicgroupLaunchConfig2B990A9D"
         },
         "Tags": [
           {
             "Key": "Name",
-            "Value": "CdkAppStack/rgd-public-ec2-az2/rgd-public-ec2-az2"
+            "PropagateAtLaunch": true,
+            "Value": "CdkAppStack/rgd-public-group/rgd-public-group"
           }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "CdkAppStack/rgd-public-ec2-az2/rgd-public-ec2-az2/InstanceRole/Resource"
-      }
-    },
-    "rgdpublicec2az2InstanceProfileCD5D3705": {
-      "Type": "AWS::IAM::InstanceProfile",
-      "Properties": {
-        "Roles": [
+        ],
+        "TargetGroupARNs": [
           {
-            "Ref": "rgdpublicec2az2InstanceRoleD640B954"
+            "Ref": "rgdloadbalanceralbListenerdefaulttargetGroupC25B40C9"
+          }
+        ],
+        "VPCZoneIdentifier": [
+          {
+            "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1Subnet9CDCE4D1"
+          },
+          {
+            "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet2Subnet37D95C2B"
           }
         ]
       },
+      "UpdatePolicy": {
+        "AutoScalingScheduledAction": {
+          "IgnoreUnmodifiedGroupSizeProperties": true
+        }
+      },
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/rgd-public-ec2-az2/rgd-public-ec2-az2/InstanceProfile"
+        "aws:cdk:path": "CdkAppStack/rgd-public-group/rgd-public-group/ASG"
       }
     },
-    "rgdpublicec2az2CA94A53E": {
-      "Type": "AWS::EC2::Instance",
+    "rgdloadbalanceralbCCFB5A92": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
       "Properties": {
-        "AvailabilityZone": {
-          "Fn::Select": [
-            0,
-            {
-              "Fn::GetAZs": ""
-            }
-          ]
-        },
-        "IamInstanceProfile": {
-          "Ref": "rgdpublicec2az2InstanceProfileCD5D3705"
-        },
-        "ImageId": {
-          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
-        },
-        "InstanceType": "t2.micro",
-        "KeyName": "rgederin-lohika-2021-us-west-2",
-        "SecurityGroupIds": [
+        "LoadBalancerAttributes": [
+          {
+            "Key": "deletion_protection.enabled",
+            "Value": "false"
+          }
+        ],
+        "Scheme": "internet-facing",
+        "SecurityGroups": [
           {
             "Fn::GetAtt": [
               "rgdpublicsecuritygroup6949B66D",
@@ -560,30 +547,105 @@
             ]
           }
         ],
-        "SubnetId": {
-          "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1Subnet9CDCE4D1"
-        },
-        "Tags": [
+        "Subnets": [
           {
-            "Key": "Name",
-            "Value": "CdkAppStack/rgd-public-ec2-az2/rgd-public-ec2-az2"
+            "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1Subnet9CDCE4D1"
+          },
+          {
+            "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet2Subnet37D95C2B"
           }
         ],
-        "UserData": {
-          "Fn::Base64": "#!/bin/bash"
-        }
+        "Type": "application"
       },
       "DependsOn": [
-        "rgdpublicec2az2InstanceRoleD640B954"
+        "rgdbmivpcrgdbmipublicsubnetSubnet1DefaultRoute8E591311",
+        "rgdbmivpcrgdbmipublicsubnetSubnet2DefaultRouteF5D94D78"
       ],
       "Metadata": {
-        "aws:cdk:path": "CdkAppStack/rgd-public-ec2-az2/rgd-public-ec2-az2/Resource"
+        "aws:cdk:path": "CdkAppStack/rgd-load-balancer/alb/Resource"
+      }
+    },
+    "rgdloadbalanceralbListener4517D467": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "rgdloadbalanceralbListenerdefaulttargetGroupC25B40C9"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "rgdloadbalanceralbCCFB5A92"
+        },
+        "Port": 80,
+        "Protocol": "HTTP"
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-load-balancer/alb/Listener/Resource"
+      }
+    },
+    "rgdloadbalanceralbListenerdefaulttargetGroupC25B40C9": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "HealthCheckIntervalSeconds": 30,
+        "HealthCheckPath": "/",
+        "HealthyThresholdCount": 5,
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetGroupAttributes": [
+          {
+            "Key": "stickiness.enabled",
+            "Value": "false"
+          }
+        ],
+        "TargetType": "instance",
+        "UnhealthyThresholdCount": 2,
+        "VpcId": {
+          "Ref": "rgdbmivpc30981C49"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-load-balancer/alb/Listener/default-targetGroup/Resource"
+      }
+    },
+    "rgdloadbalanceralbListenerstaticRuleA333A5CB": {
+      "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
+      "Properties": {
+        "Actions": [
+          {
+            "FixedResponseConfig": {
+              "ContentType": "text/html",
+              "MessageBody": "<h1>Static ALB Response</h1>",
+              "StatusCode": "200"
+            },
+            "Type": "fixed-response"
+          }
+        ],
+        "Conditions": [
+          {
+            "Field": "path-pattern",
+            "PathPatternConfig": {
+              "Values": [
+                "/static"
+              ]
+            }
+          }
+        ],
+        "ListenerArn": {
+          "Ref": "rgdloadbalanceralbListener4517D467"
+        },
+        "Priority": 5
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-load-balancer/alb/Listener/--staticRule/Resource"
       }
     },
     "CDKMetadata": {
       "Type": "AWS::CDK::Metadata",
       "Properties": {
-        "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WPTW/CMAyGfwv3NFuRhrQj6gFxi9qJK3JToxlaByUOCFX97wsE1u3k14+/Xi91+aHfF3ANhe1ORU+tHhsBe1IJ7Ue0Sz3uzlZVB96ZSpnY9mSb2DLKnc2qdlHwC9oeZz6zdQjOEgg5/m1WxtMFBOcdWxb0SW8SvcLtefSZrSXZ+h6QRTVooye5bbyL58e5f2DLQYAt5pVZT4pg0GPtsr9XfJWNdwfqcZpUjcFFn4cNeBgweXqM/ClUjju6PzMpdh3qY3i7lCv9qcvFMRAVPrLQgLrO8Qc+OM1KZQEAAA=="
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/31R32vCMBD+W3yP2RQ22GPngwjCSiu+jmt66mmalOSiSOn/vtiqLWPsKff9yHeXy1zO3uTrBC5+qsrTVFMhm5xBnUSkvhtUc9lsayUWO7NNFyINhSaVh8Ig37ihymxg3EChceAHLvHeKgIma55mkTo6A+OQsTKMLtbLyF7gem96RwnHsQ4VGhY5quCIr0tnQ921+5dYmb1D71sBga1XoMnsZZNEkPfgeW0NwajDwpod7YN7jvvb2gqCSjaZ7R/7OFfGMxiFqbM70tgK1OCZlLZQFqCjFAPOcaFJXcctdvHrqH12GrpugjEe+8gzmrvnUY/0Dbh9XNzjIWP4R0oW+onHuG1Fht4GpzopBQcVct/xK3Ad+m8eWeKeSrrFtsLYEuXRv5xn7/JDziZHTzR1wTBVKLP+/AEMBAnjawIAAA=="
       },
       "Metadata": {
         "aws:cdk:path": "CdkAppStack/CDKMetadata/Default"
@@ -600,6 +662,16 @@
       "Type": "AWS::SSM::Parameter::Value<String>",
       "Default": "/cdk-bootstrap/hnb659fds/version",
       "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+    }
+  },
+  "Outputs": {
+    "rgdloadbalanceralbDNSF4419F82": {
+      "Value": {
+        "Fn::GetAtt": [
+          "rgdloadbalanceralbCCFB5A92",
+          "DNSName"
+        ]
+      }
     }
   },
   "Conditions": {
