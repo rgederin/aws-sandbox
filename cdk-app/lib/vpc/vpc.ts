@@ -13,8 +13,11 @@ export class BmiVpc extends Construct {
     super(scope, id);
 
     this.vpc = new ec2.Vpc(this, id, {
+      natGatewayProvider: ec2.NatProvider.instance({
+        instanceType: new ec2.InstanceType('t2.micro'),
+      }),
       cidr: props.vpcCidr,
-      natGateways: 0,
+      natGateways: 1,
       maxAzs: 2,
       subnetConfiguration: [
         {
@@ -25,7 +28,7 @@ export class BmiVpc extends Construct {
         {
           name: 'rgd-bmi-private-subnet-1',
           cidrMask: 24,
-          subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
+          subnetType: ec2.SubnetType.PRIVATE_WITH_NAT
         },
       ],
     });

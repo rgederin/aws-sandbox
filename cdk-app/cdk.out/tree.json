@@ -61,14 +61,7 @@
                             "vpcId": {
                               "Ref": "rgdbmivpc30981C49"
                             },
-                            "availabilityZone": {
-                              "Fn::Select": [
-                                0,
-                                {
-                                  "Fn::GetAZs": ""
-                                }
-                              ]
-                            },
+                            "availabilityZone": "us-west-2a",
                             "mapPublicIpOnLaunch": true,
                             "tags": [
                               {
@@ -159,6 +152,74 @@
                           "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
                           "version": "2.15.0"
                         }
+                      },
+                      "NatInstance": {
+                        "id": "NatInstance",
+                        "path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1/NatInstance",
+                        "children": {
+                          "InstanceProfile": {
+                            "id": "InstanceProfile",
+                            "path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1/NatInstance/InstanceProfile",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::InstanceProfile",
+                              "aws:cdk:cloudformation:props": {
+                                "roles": [
+                                  {
+                                    "Ref": "rgdbmivpcNatRoleE59027FD"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnInstanceProfile",
+                              "version": "2.15.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1/NatInstance/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::EC2::Instance",
+                              "aws:cdk:cloudformation:props": {
+                                "availabilityZone": "us-west-2a",
+                                "iamInstanceProfile": {
+                                  "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1NatInstanceInstanceProfile685E5239"
+                                },
+                                "imageId": "ami-06345edbe7e903801",
+                                "instanceType": "t2.micro",
+                                "securityGroupIds": [
+                                  {
+                                    "Fn::GetAtt": [
+                                      "rgdbmivpcNatSecurityGroupF6928237",
+                                      "GroupId"
+                                    ]
+                                  }
+                                ],
+                                "sourceDestCheck": false,
+                                "subnetId": {
+                                  "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1Subnet9CDCE4D1"
+                                },
+                                "tags": [
+                                  {
+                                    "key": "Name",
+                                    "value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1/NatInstance"
+                                  }
+                                ],
+                                "userData": {
+                                  "Fn::Base64": "#!/bin/bash"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_ec2.CfnInstance",
+                              "version": "2.15.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.Instance",
+                          "version": "2.15.0"
+                        }
                       }
                     },
                     "constructInfo": {
@@ -180,14 +241,7 @@
                             "vpcId": {
                               "Ref": "rgdbmivpc30981C49"
                             },
-                            "availabilityZone": {
-                              "Fn::Select": [
-                                1,
-                                {
-                                  "Fn::GetAZs": ""
-                                }
-                              ]
-                            },
+                            "availabilityZone": "us-west-2b",
                             "mapPublicIpOnLaunch": true,
                             "tags": [
                               {
@@ -299,14 +353,7 @@
                             "vpcId": {
                               "Ref": "rgdbmivpc30981C49"
                             },
-                            "availabilityZone": {
-                              "Fn::Select": [
-                                0,
-                                {
-                                  "Fn::GetAZs": ""
-                                }
-                              ]
-                            },
+                            "availabilityZone": "us-west-2a",
                             "mapPublicIpOnLaunch": false,
                             "tags": [
                               {
@@ -315,7 +362,7 @@
                               },
                               {
                                 "key": "aws-cdk:subnet-type",
-                                "value": "Isolated"
+                                "value": "Private"
                               },
                               {
                                 "key": "Name",
@@ -377,6 +424,26 @@
                           "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
                           "version": "2.15.0"
                         }
+                      },
+                      "DefaultRoute": {
+                        "id": "DefaultRoute",
+                        "path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet1/DefaultRoute",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::Route",
+                          "aws:cdk:cloudformation:props": {
+                            "routeTableId": {
+                              "Ref": "rgdbmivpcrgdbmiprivatesubnet1Subnet1RouteTableC8B705E0"
+                            },
+                            "destinationCidrBlock": "0.0.0.0/0",
+                            "instanceId": {
+                              "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1NatInstance0339F593"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
+                          "version": "2.15.0"
+                        }
                       }
                     },
                     "constructInfo": {
@@ -398,14 +465,7 @@
                             "vpcId": {
                               "Ref": "rgdbmivpc30981C49"
                             },
-                            "availabilityZone": {
-                              "Fn::Select": [
-                                1,
-                                {
-                                  "Fn::GetAZs": ""
-                                }
-                              ]
-                            },
+                            "availabilityZone": "us-west-2b",
                             "mapPublicIpOnLaunch": false,
                             "tags": [
                               {
@@ -414,7 +474,7 @@
                               },
                               {
                                 "key": "aws-cdk:subnet-type",
-                                "value": "Isolated"
+                                "value": "Private"
                               },
                               {
                                 "key": "Name",
@@ -476,6 +536,26 @@
                           "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
                           "version": "2.15.0"
                         }
+                      },
+                      "DefaultRoute": {
+                        "id": "DefaultRoute",
+                        "path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet2/DefaultRoute",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::Route",
+                          "aws:cdk:cloudformation:props": {
+                            "routeTableId": {
+                              "Ref": "rgdbmivpcrgdbmiprivatesubnet1Subnet2RouteTable2E3A0DC1"
+                            },
+                            "destinationCidrBlock": "0.0.0.0/0",
+                            "instanceId": {
+                              "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1NatInstance0339F593"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
+                          "version": "2.15.0"
+                        }
                       }
                     },
                     "constructInfo": {
@@ -518,6 +598,94 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_ec2.CfnVPCGatewayAttachment",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "NatSecurityGroup": {
+                    "id": "NatSecurityGroup",
+                    "path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/NatSecurityGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/NatSecurityGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                          "aws:cdk:cloudformation:props": {
+                            "groupDescription": "Security Group for NAT instances",
+                            "securityGroupEgress": [
+                              {
+                                "cidrIp": "0.0.0.0/0",
+                                "description": "Allow all outbound traffic by default",
+                                "ipProtocol": "-1"
+                              }
+                            ],
+                            "securityGroupIngress": [
+                              {
+                                "cidrIp": "0.0.0.0/0",
+                                "ipProtocol": "-1",
+                                "description": "from 0.0.0.0/0:ALL TRAFFIC"
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "Name",
+                                "value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc"
+                              }
+                            ],
+                            "vpcId": {
+                              "Ref": "rgdbmivpc30981C49"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "NatRole": {
+                    "id": "NatRole",
+                    "path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/NatRole",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/NatRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "tags": [
+                              {
+                                "key": "Name",
+                                "value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
                       "version": "2.15.0"
                     }
                   }
@@ -629,6 +797,76 @@
               "version": "10.0.77"
             }
           },
+          "rgd-private-security-group": {
+            "id": "rgd-private-security-group",
+            "path": "CdkAppStack/rgd-private-security-group",
+            "children": {
+              "rgd-private-security-group": {
+                "id": "rgd-private-security-group",
+                "path": "CdkAppStack/rgd-private-security-group/rgd-private-security-group",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "CdkAppStack/rgd-private-security-group/rgd-private-security-group/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                      "aws:cdk:cloudformation:props": {
+                        "groupDescription": "CdkAppStack/rgd-private-security-group/rgd-private-security-group",
+                        "securityGroupEgress": [
+                          {
+                            "cidrIp": "0.0.0.0/0",
+                            "description": "Allow all outbound traffic by default",
+                            "ipProtocol": "-1"
+                          }
+                        ],
+                        "securityGroupIngress": [
+                          {
+                            "cidrIp": {
+                              "Fn::GetAtt": [
+                                "rgdbmivpc30981C49",
+                                "CidrBlock"
+                              ]
+                            },
+                            "ipProtocol": "tcp",
+                            "fromPort": 22,
+                            "toPort": 22,
+                            "description": "allow SSH access from the instances within vpc"
+                          },
+                          {
+                            "cidrIp": {
+                              "Fn::GetAtt": [
+                                "rgdbmivpc30981C49",
+                                "CidrBlock"
+                              ]
+                            },
+                            "ipProtocol": "icmp",
+                            "fromPort": 8,
+                            "toPort": -1,
+                            "description": "allow HTTP traffic from anywhere"
+                          }
+                        ],
+                        "vpcId": {
+                          "Ref": "rgdbmivpc30981C49"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+                  "version": "2.15.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.0.77"
+            }
+          },
           "rgd-public-group": {
             "id": "rgd-public-group",
             "path": "CdkAppStack/rgd-public-group",
@@ -653,17 +891,7 @@
                                   "Action": "sts:AssumeRole",
                                   "Effect": "Allow",
                                   "Principal": {
-                                    "Service": {
-                                      "Fn::Join": [
-                                        "",
-                                        [
-                                          "ec2.",
-                                          {
-                                            "Ref": "AWS::URLSuffix"
-                                          }
-                                        ]
-                                      ]
-                                    }
+                                    "Service": "ec2.amazonaws.com"
                                   }
                                 }
                               ],
@@ -679,6 +907,76 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "CdkAppStack/rgd-public-group/rgd-public-group/InstanceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "CdkAppStack/rgd-public-group/rgd-public-group/InstanceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "dynamodb:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "rgdrgdbmilogtable2CF5D268",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Ref": "AWS::NoValue"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "Action": [
+                                        "sqs:SendMessage",
+                                        "sqs:GetQueueAttributes",
+                                        "sqs:GetQueueUrl"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::GetAtt": [
+                                          "rgdbmiqueueidrgdbmiqueue2C80E3C7",
+                                          "Arn"
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "Action": "sns:Publish",
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Ref": "rgdbmitopicidrgdbmitopic24817719"
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "rgdpublicgroupInstanceRoleDefaultPolicyBBDC69AE",
+                                "roles": [
+                                  {
+                                    "Ref": "rgdpublicgroupInstanceRole0F3ECC1B"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.15.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
                           "version": "2.15.0"
                         }
                       }
@@ -802,6 +1100,184 @@
             "constructInfo": {
               "fqn": "aws-cdk-lib.Resource",
               "version": "2.15.0"
+            }
+          },
+          "rgd-private-ec2": {
+            "id": "rgd-private-ec2",
+            "path": "CdkAppStack/rgd-private-ec2",
+            "children": {
+              "rgd-private-ec2": {
+                "id": "rgd-private-ec2",
+                "path": "CdkAppStack/rgd-private-ec2/rgd-private-ec2",
+                "children": {
+                  "InstanceRole": {
+                    "id": "InstanceRole",
+                    "path": "CdkAppStack/rgd-private-ec2/rgd-private-ec2/InstanceRole",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "CdkAppStack/rgd-private-ec2/rgd-private-ec2/InstanceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "tags": [
+                              {
+                                "key": "Name",
+                                "value": "CdkAppStack/rgd-private-ec2/rgd-private-ec2"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "CdkAppStack/rgd-private-ec2/rgd-private-ec2/InstanceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "CdkAppStack/rgd-private-ec2/rgd-private-ec2/InstanceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "sqs:ReceiveMessage",
+                                        "sqs:ChangeMessageVisibility",
+                                        "sqs:GetQueueUrl",
+                                        "sqs:DeleteMessage",
+                                        "sqs:GetQueueAttributes"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::GetAtt": [
+                                          "rgdbmiqueueidrgdbmiqueue2C80E3C7",
+                                          "Arn"
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "Action": "sns:Publish",
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Ref": "rgdbmitopicidrgdbmitopic24817719"
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "rgdprivateec2InstanceRoleDefaultPolicy644479B3",
+                                "roles": [
+                                  {
+                                    "Ref": "rgdprivateec2InstanceRole63F8EFD1"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.15.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "InstanceProfile": {
+                    "id": "InstanceProfile",
+                    "path": "CdkAppStack/rgd-private-ec2/rgd-private-ec2/InstanceProfile",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::InstanceProfile",
+                      "aws:cdk:cloudformation:props": {
+                        "roles": [
+                          {
+                            "Ref": "rgdprivateec2InstanceRole63F8EFD1"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnInstanceProfile",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "CdkAppStack/rgd-private-ec2/rgd-private-ec2/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Instance",
+                      "aws:cdk:cloudformation:props": {
+                        "availabilityZone": "us-west-2a",
+                        "iamInstanceProfile": {
+                          "Ref": "rgdprivateec2InstanceProfile1B59CC43"
+                        },
+                        "imageId": {
+                          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+                        },
+                        "instanceType": "t2.micro",
+                        "keyName": "rgederin-lohika-2021-us-west-2",
+                        "securityGroupIds": [
+                          {
+                            "Fn::GetAtt": [
+                              "rgdprivatesecuritygroup66F5C587",
+                              "GroupId"
+                            ]
+                          }
+                        ],
+                        "subnetId": {
+                          "Ref": "rgdbmivpcrgdbmiprivatesubnet1Subnet1Subnet11B9D644"
+                        },
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "CdkAppStack/rgd-private-ec2/rgd-private-ec2"
+                          }
+                        ],
+                        "userData": {
+                          "Fn::Base64": "#!/bin/bash"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnInstance",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.Instance",
+                  "version": "2.15.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.0.77"
             }
           },
           "rgd-load-balancer": {
@@ -991,6 +1467,417 @@
               "version": "10.0.77"
             }
           },
+          "rgd-rgd-bmi-log-table": {
+            "id": "rgd-rgd-bmi-log-table",
+            "path": "CdkAppStack/rgd-rgd-bmi-log-table",
+            "children": {
+              "rgd-bmi-log-table": {
+                "id": "rgd-bmi-log-table",
+                "path": "CdkAppStack/rgd-rgd-bmi-log-table/rgd-bmi-log-table",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "CdkAppStack/rgd-rgd-bmi-log-table/rgd-bmi-log-table/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                      "aws:cdk:cloudformation:props": {
+                        "keySchema": [
+                          {
+                            "attributeName": "id",
+                            "keyType": "HASH"
+                          }
+                        ],
+                        "attributeDefinitions": [
+                          {
+                            "attributeName": "id",
+                            "attributeType": "S"
+                          }
+                        ],
+                        "pointInTimeRecoverySpecification": {
+                          "pointInTimeRecoveryEnabled": true
+                        },
+                        "provisionedThroughput": {
+                          "readCapacityUnits": 5,
+                          "writeCapacityUnits": 5
+                        },
+                        "tableName": "rgd-bmi-log-table"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "ScalingRole": {
+                    "id": "ScalingRole",
+                    "path": "CdkAppStack/rgd-rgd-bmi-log-table/rgd-bmi-log-table/ScalingRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+                  "version": "2.15.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.0.77"
+            }
+          },
+          "rgd-bmi-queue-id": {
+            "id": "rgd-bmi-queue-id",
+            "path": "CdkAppStack/rgd-bmi-queue-id",
+            "children": {
+              "rgd-bmi-queue": {
+                "id": "rgd-bmi-queue",
+                "path": "CdkAppStack/rgd-bmi-queue-id/rgd-bmi-queue",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "CdkAppStack/rgd-bmi-queue-id/rgd-bmi-queue/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                      "aws:cdk:cloudformation:props": {
+                        "queueName": "rgd-rgd-bmi-queue"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sqs.Queue",
+                  "version": "2.15.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.0.77"
+            }
+          },
+          "rgd-bmi-topic-id": {
+            "id": "rgd-bmi-topic-id",
+            "path": "CdkAppStack/rgd-bmi-topic-id",
+            "children": {
+              "rgd-bmi-topic": {
+                "id": "rgd-bmi-topic",
+                "path": "CdkAppStack/rgd-bmi-topic-id/rgd-bmi-topic",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "CdkAppStack/rgd-bmi-topic-id/rgd-bmi-topic/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SNS::Topic",
+                      "aws:cdk:cloudformation:props": {
+                        "displayName": "rgd-rgd-bmi-topic",
+                        "topicName": "rgd-rgd-bmi-topic"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_sns.CfnTopic",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "rgederin@lohika.com": {
+                    "id": "rgederin@lohika.com",
+                    "path": "CdkAppStack/rgd-bmi-topic-id/rgd-bmi-topic/rgederin@lohika.com",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "CdkAppStack/rgd-bmi-topic-id/rgd-bmi-topic/rgederin@lohika.com/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::SNS::Subscription",
+                          "aws:cdk:cloudformation:props": {
+                            "protocol": "email",
+                            "topicArn": {
+                              "Ref": "rgdbmitopicidrgdbmitopic24817719"
+                            },
+                            "endpoint": "rgederin@lohika.com"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_sns.CfnSubscription",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_sns.Subscription",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sns.Topic",
+                  "version": "2.15.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.0.77"
+            }
+          },
+          "rgd-bmi-rds": {
+            "id": "rgd-bmi-rds",
+            "path": "CdkAppStack/rgd-bmi-rds",
+            "children": {
+              "rgd-bmi-rds": {
+                "id": "rgd-bmi-rds",
+                "path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds",
+                "children": {
+                  "SubnetGroup": {
+                    "id": "SubnetGroup",
+                    "path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/SubnetGroup",
+                    "children": {
+                      "Default": {
+                        "id": "Default",
+                        "path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/SubnetGroup/Default",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::RDS::DBSubnetGroup",
+                          "aws:cdk:cloudformation:props": {
+                            "dbSubnetGroupDescription": "Subnet group for rgd-bmi-rds database",
+                            "subnetIds": [
+                              {
+                                "Ref": "rgdbmivpcrgdbmiprivatesubnet1Subnet1Subnet11B9D644"
+                              },
+                              {
+                                "Ref": "rgdbmivpcrgdbmiprivatesubnet1Subnet2SubnetE5B80C3E"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_rds.CfnDBSubnetGroup",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_rds.SubnetGroup",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "SecurityGroup": {
+                    "id": "SecurityGroup",
+                    "path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/SecurityGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/SecurityGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                          "aws:cdk:cloudformation:props": {
+                            "groupDescription": "Security group for rgd-bmi-rds database",
+                            "securityGroupEgress": [
+                              {
+                                "cidrIp": "0.0.0.0/0",
+                                "description": "Allow all outbound traffic by default",
+                                "ipProtocol": "-1"
+                              }
+                            ],
+                            "vpcId": {
+                              "Ref": "rgdbmivpc30981C49"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "from CdkAppStackrgdprivatesecuritygroup0BF2E0C9:5432": {
+                        "id": "from CdkAppStackrgdprivatesecuritygroup0BF2E0C9:5432",
+                        "path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/SecurityGroup/from CdkAppStackrgdprivatesecuritygroup0BF2E0C9:5432",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                          "aws:cdk:cloudformation:props": {
+                            "ipProtocol": "tcp",
+                            "description": "from CdkAppStackrgdprivatesecuritygroup0BF2E0C9:5432",
+                            "fromPort": 5432,
+                            "groupId": {
+                              "Fn::GetAtt": [
+                                "rgdbmirdsSecurityGroupC404A0AA",
+                                "GroupId"
+                              ]
+                            },
+                            "sourceSecurityGroupId": {
+                              "Fn::GetAtt": [
+                                "rgdprivatesecuritygroup66F5C587",
+                                "GroupId"
+                              ]
+                            },
+                            "toPort": 5432
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Secret": {
+                    "id": "Secret",
+                    "path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/Secret",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/Secret/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::SecretsManager::Secret",
+                          "aws:cdk:cloudformation:props": {
+                            "description": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "Generated by the CDK for stack: ",
+                                  {
+                                    "Ref": "AWS::StackName"
+                                  }
+                                ]
+                              ]
+                            },
+                            "generateSecretString": {
+                              "passwordLength": 30,
+                              "secretStringTemplate": "{\"username\":\"postgres\"}",
+                              "generateStringKey": "password",
+                              "excludeCharacters": " %+~`#$&*()|[]{}:;<>?!'/@\"\\"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_secretsmanager.CfnSecret",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "Attachment": {
+                        "id": "Attachment",
+                        "path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/Secret/Attachment",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/Secret/Attachment/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::SecretsManager::SecretTargetAttachment",
+                              "aws:cdk:cloudformation:props": {
+                                "secretId": {
+                                  "Ref": "CdkAppStackrgdbmirdsSecretE4C2ADFB3fdaad7efa858a3daf9490cf0a702aeb"
+                                },
+                                "targetId": {
+                                  "Ref": "rgdbmirds9058BABD"
+                                },
+                                "targetType": "AWS::RDS::DBInstance"
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_secretsmanager.CfnSecretTargetAttachment",
+                              "version": "2.15.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_secretsmanager.SecretTargetAttachment",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_rds.DatabaseSecret",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::RDS::DBInstance",
+                      "aws:cdk:cloudformation:props": {
+                        "dbInstanceClass": "db.t3.micro",
+                        "allocatedStorage": "10",
+                        "allowMajorVersionUpgrade": false,
+                        "autoMinorVersionUpgrade": true,
+                        "backupRetentionPeriod": 0,
+                        "copyTagsToSnapshot": true,
+                        "dbName": "todosdb",
+                        "dbSubnetGroupName": {
+                          "Ref": "rgdbmirdsSubnetGroupD30A13B1"
+                        },
+                        "deleteAutomatedBackups": true,
+                        "deletionProtection": false,
+                        "engine": "postgres",
+                        "engineVersion": "13.4",
+                        "masterUsername": "postgres",
+                        "masterUserPassword": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "{{resolve:secretsmanager:",
+                              {
+                                "Ref": "CdkAppStackrgdbmirdsSecretE4C2ADFB3fdaad7efa858a3daf9490cf0a702aeb"
+                              },
+                              ":SecretString:password::}}"
+                            ]
+                          ]
+                        },
+                        "maxAllocatedStorage": 11,
+                        "multiAz": false,
+                        "publiclyAccessible": false,
+                        "storageType": "gp2",
+                        "vpcSecurityGroups": [
+                          {
+                            "Fn::GetAtt": [
+                              "rgdbmirdsSecurityGroupC404A0AA",
+                              "GroupId"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_rds.CfnDBInstance",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_rds.DatabaseInstance",
+                  "version": "2.15.0"
+                }
+              },
+              "dbEndpoint": {
+                "id": "dbEndpoint",
+                "path": "CdkAppStack/rgd-bmi-rds/dbEndpoint",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.15.0"
+                }
+              },
+              "secretName": {
+                "id": "secretName",
+                "path": "CdkAppStack/rgd-bmi-rds/secretName",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.15.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.0.77"
+            }
+          },
           "CDKMetadata": {
             "id": "CDKMetadata",
             "path": "CdkAppStack/CDKMetadata",
@@ -1000,14 +1887,6 @@
                 "path": "CdkAppStack/CDKMetadata/Default",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnResource",
-                  "version": "2.15.0"
-                }
-              },
-              "Condition": {
-                "id": "Condition",
-                "path": "CdkAppStack/CDKMetadata/Condition",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.CfnCondition",
                   "version": "2.15.0"
                 }
               }

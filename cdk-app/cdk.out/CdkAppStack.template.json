@@ -25,14 +25,7 @@
         "VpcId": {
           "Ref": "rgdbmivpc30981C49"
         },
-        "AvailabilityZone": {
-          "Fn::Select": [
-            0,
-            {
-              "Fn::GetAZs": ""
-            }
-          ]
-        },
+        "AvailabilityZone": "us-west-2a",
         "MapPublicIpOnLaunch": true,
         "Tags": [
           {
@@ -102,6 +95,57 @@
         "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1/DefaultRoute"
       }
     },
+    "rgdbmivpcrgdbmipublicsubnetSubnet1NatInstanceInstanceProfile685E5239": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "rgdbmivpcNatRoleE59027FD"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1/NatInstance/InstanceProfile"
+      }
+    },
+    "rgdbmivpcrgdbmipublicsubnetSubnet1NatInstance0339F593": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "AvailabilityZone": "us-west-2a",
+        "IamInstanceProfile": {
+          "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1NatInstanceInstanceProfile685E5239"
+        },
+        "ImageId": "ami-06345edbe7e903801",
+        "InstanceType": "t2.micro",
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "rgdbmivpcNatSecurityGroupF6928237",
+              "GroupId"
+            ]
+          }
+        ],
+        "SourceDestCheck": false,
+        "SubnetId": {
+          "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1Subnet9CDCE4D1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1/NatInstance"
+          }
+        ],
+        "UserData": {
+          "Fn::Base64": "#!/bin/bash"
+        }
+      },
+      "DependsOn": [
+        "rgdbmivpcNatRoleE59027FD"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1/NatInstance/Resource"
+      }
+    },
     "rgdbmivpcrgdbmipublicsubnetSubnet2Subnet37D95C2B": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
@@ -109,14 +153,7 @@
         "VpcId": {
           "Ref": "rgdbmivpc30981C49"
         },
-        "AvailabilityZone": {
-          "Fn::Select": [
-            1,
-            {
-              "Fn::GetAZs": ""
-            }
-          ]
-        },
+        "AvailabilityZone": "us-west-2b",
         "MapPublicIpOnLaunch": true,
         "Tags": [
           {
@@ -193,14 +230,7 @@
         "VpcId": {
           "Ref": "rgdbmivpc30981C49"
         },
-        "AvailabilityZone": {
-          "Fn::Select": [
-            0,
-            {
-              "Fn::GetAZs": ""
-            }
-          ]
-        },
+        "AvailabilityZone": "us-west-2a",
         "MapPublicIpOnLaunch": false,
         "Tags": [
           {
@@ -209,7 +239,7 @@
           },
           {
             "Key": "aws-cdk:subnet-type",
-            "Value": "Isolated"
+            "Value": "Private"
           },
           {
             "Key": "Name",
@@ -252,6 +282,21 @@
         "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet1/RouteTableAssociation"
       }
     },
+    "rgdbmivpcrgdbmiprivatesubnet1Subnet1DefaultRoute605CF4BC": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "rgdbmivpcrgdbmiprivatesubnet1Subnet1RouteTableC8B705E0"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "InstanceId": {
+          "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1NatInstance0339F593"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet1/DefaultRoute"
+      }
+    },
     "rgdbmivpcrgdbmiprivatesubnet1Subnet2SubnetE5B80C3E": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
@@ -259,14 +304,7 @@
         "VpcId": {
           "Ref": "rgdbmivpc30981C49"
         },
-        "AvailabilityZone": {
-          "Fn::Select": [
-            1,
-            {
-              "Fn::GetAZs": ""
-            }
-          ]
-        },
+        "AvailabilityZone": "us-west-2b",
         "MapPublicIpOnLaunch": false,
         "Tags": [
           {
@@ -275,7 +313,7 @@
           },
           {
             "Key": "aws-cdk:subnet-type",
-            "Value": "Isolated"
+            "Value": "Private"
           },
           {
             "Key": "Name",
@@ -318,6 +356,21 @@
         "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet2/RouteTableAssociation"
       }
     },
+    "rgdbmivpcrgdbmiprivatesubnet1Subnet2DefaultRoute47F6A623": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "rgdbmivpcrgdbmiprivatesubnet1Subnet2RouteTable2E3A0DC1"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "InstanceId": {
+          "Ref": "rgdbmivpcrgdbmipublicsubnetSubnet1NatInstance0339F593"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet2/DefaultRoute"
+      }
+    },
     "rgdbmivpcIGWDD404358": {
       "Type": "AWS::EC2::InternetGateway",
       "Properties": {
@@ -344,6 +397,64 @@
       },
       "Metadata": {
         "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/VPCGW"
+      }
+    },
+    "rgdbmivpcNatSecurityGroupF6928237": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Security Group for NAT instances",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:ALL TRAFFIC",
+            "IpProtocol": "-1"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc"
+          }
+        ],
+        "VpcId": {
+          "Ref": "rgdbmivpc30981C49"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/NatSecurityGroup/Resource"
+      }
+    },
+    "rgdbmivpcNatRoleE59027FD": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/NatRole/Resource"
       }
     },
     "rgdpublicsecuritygroup6949B66D": {
@@ -412,6 +523,51 @@
         "aws:cdk:path": "CdkAppStack/rgd-public-security-group/rgd-public-security-group/from CdkAppStackrgdpublicsecuritygroup133C6FDD:80"
       }
     },
+    "rgdprivatesecuritygroup66F5C587": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "CdkAppStack/rgd-private-security-group/rgd-private-security-group",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::GetAtt": [
+                "rgdbmivpc30981C49",
+                "CidrBlock"
+              ]
+            },
+            "Description": "allow SSH access from the instances within vpc",
+            "FromPort": 22,
+            "IpProtocol": "tcp",
+            "ToPort": 22
+          },
+          {
+            "CidrIp": {
+              "Fn::GetAtt": [
+                "rgdbmivpc30981C49",
+                "CidrBlock"
+              ]
+            },
+            "Description": "allow HTTP traffic from anywhere",
+            "FromPort": 8,
+            "IpProtocol": "icmp",
+            "ToPort": -1
+          }
+        ],
+        "VpcId": {
+          "Ref": "rgdbmivpc30981C49"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-private-security-group/rgd-private-security-group/Resource"
+      }
+    },
     "rgdpublicgroupInstanceRole0F3ECC1B": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -421,17 +577,7 @@
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": {
-                "Service": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "ec2.",
-                      {
-                        "Ref": "AWS::URLSuffix"
-                      }
-                    ]
-                  ]
-                }
+                "Service": "ec2.amazonaws.com"
               }
             }
           ],
@@ -446,6 +592,61 @@
       },
       "Metadata": {
         "aws:cdk:path": "CdkAppStack/rgd-public-group/rgd-public-group/InstanceRole/Resource"
+      }
+    },
+    "rgdpublicgroupInstanceRoleDefaultPolicyBBDC69AE": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "dynamodb:*",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rgdrgdbmilogtable2CF5D268",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Ref": "AWS::NoValue"
+                }
+              ]
+            },
+            {
+              "Action": [
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "rgdbmiqueueidrgdbmiqueue2C80E3C7",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "rgdbmitopicidrgdbmitopic24817719"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "rgdpublicgroupInstanceRoleDefaultPolicyBBDC69AE",
+        "Roles": [
+          {
+            "Ref": "rgdpublicgroupInstanceRole0F3ECC1B"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-public-group/rgd-public-group/InstanceRole/DefaultPolicy/Resource"
       }
     },
     "rgdpublicgroupInstanceProfileEFF63219": {
@@ -485,6 +686,7 @@
         }
       },
       "DependsOn": [
+        "rgdpublicgroupInstanceRoleDefaultPolicyBBDC69AE",
         "rgdpublicgroupInstanceRole0F3ECC1B"
       ],
       "Metadata": {
@@ -527,6 +729,128 @@
       },
       "Metadata": {
         "aws:cdk:path": "CdkAppStack/rgd-public-group/rgd-public-group/ASG"
+      }
+    },
+    "rgdprivateec2InstanceRole63F8EFD1": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "CdkAppStack/rgd-private-ec2/rgd-private-ec2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-private-ec2/rgd-private-ec2/InstanceRole/Resource"
+      }
+    },
+    "rgdprivateec2InstanceRoleDefaultPolicy644479B3": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "sqs:ReceiveMessage",
+                "sqs:ChangeMessageVisibility",
+                "sqs:GetQueueUrl",
+                "sqs:DeleteMessage",
+                "sqs:GetQueueAttributes"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "rgdbmiqueueidrgdbmiqueue2C80E3C7",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "rgdbmitopicidrgdbmitopic24817719"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "rgdprivateec2InstanceRoleDefaultPolicy644479B3",
+        "Roles": [
+          {
+            "Ref": "rgdprivateec2InstanceRole63F8EFD1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-private-ec2/rgd-private-ec2/InstanceRole/DefaultPolicy/Resource"
+      }
+    },
+    "rgdprivateec2InstanceProfile1B59CC43": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "rgdprivateec2InstanceRole63F8EFD1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-private-ec2/rgd-private-ec2/InstanceProfile"
+      }
+    },
+    "rgdprivateec234EA0EEB": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "AvailabilityZone": "us-west-2a",
+        "IamInstanceProfile": {
+          "Ref": "rgdprivateec2InstanceProfile1B59CC43"
+        },
+        "ImageId": {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+        },
+        "InstanceType": "t2.micro",
+        "KeyName": "rgederin-lohika-2021-us-west-2",
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "rgdprivatesecuritygroup66F5C587",
+              "GroupId"
+            ]
+          }
+        ],
+        "SubnetId": {
+          "Ref": "rgdbmivpcrgdbmiprivatesubnet1Subnet1Subnet11B9D644"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "CdkAppStack/rgd-private-ec2/rgd-private-ec2"
+          }
+        ],
+        "UserData": {
+          "Fn::Base64": "#!/bin/bash"
+        }
+      },
+      "DependsOn": [
+        "rgdprivateec2InstanceRoleDefaultPolicy644479B3",
+        "rgdprivateec2InstanceRole63F8EFD1"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-private-ec2/rgd-private-ec2/Resource"
       }
     },
     "rgdloadbalanceralbCCFB5A92": {
@@ -642,15 +966,229 @@
         "aws:cdk:path": "CdkAppStack/rgd-load-balancer/alb/Listener/--staticRule/Resource"
       }
     },
+    "rgdrgdbmilogtable2CF5D268": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "KeySchema": [
+          {
+            "AttributeName": "id",
+            "KeyType": "HASH"
+          }
+        ],
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "id",
+            "AttributeType": "S"
+          }
+        ],
+        "PointInTimeRecoverySpecification": {
+          "PointInTimeRecoveryEnabled": true
+        },
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "TableName": "rgd-bmi-log-table"
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-rgd-bmi-log-table/rgd-bmi-log-table/Resource"
+      }
+    },
+    "rgdbmiqueueidrgdbmiqueue2C80E3C7": {
+      "Type": "AWS::SQS::Queue",
+      "Properties": {
+        "QueueName": "rgd-rgd-bmi-queue"
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-queue-id/rgd-bmi-queue/Resource"
+      }
+    },
+    "rgdbmitopicidrgdbmitopic24817719": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "DisplayName": "rgd-rgd-bmi-topic",
+        "TopicName": "rgd-rgd-bmi-topic"
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-topic-id/rgd-bmi-topic/Resource"
+      }
+    },
+    "rgdbmitopicidrgdbmitopicrgederinlohikacom8CCEE237": {
+      "Type": "AWS::SNS::Subscription",
+      "Properties": {
+        "Protocol": "email",
+        "TopicArn": {
+          "Ref": "rgdbmitopicidrgdbmitopic24817719"
+        },
+        "Endpoint": "rgederin@lohika.com"
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-topic-id/rgd-bmi-topic/rgederin@lohika.com/Resource"
+      }
+    },
+    "rgdbmirdsSubnetGroupD30A13B1": {
+      "Type": "AWS::RDS::DBSubnetGroup",
+      "Properties": {
+        "DBSubnetGroupDescription": "Subnet group for rgd-bmi-rds database",
+        "SubnetIds": [
+          {
+            "Ref": "rgdbmivpcrgdbmiprivatesubnet1Subnet1Subnet11B9D644"
+          },
+          {
+            "Ref": "rgdbmivpcrgdbmiprivatesubnet1Subnet2SubnetE5B80C3E"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/SubnetGroup/Default"
+      }
+    },
+    "rgdbmirdsSecurityGroupC404A0AA": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Security group for rgd-bmi-rds database",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "VpcId": {
+          "Ref": "rgdbmivpc30981C49"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/SecurityGroup/Resource"
+      }
+    },
+    "rgdbmirdsSecurityGroupfromCdkAppStackrgdprivatesecuritygroup0BF2E0C954326763A477": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "Description": "from CdkAppStackrgdprivatesecuritygroup0BF2E0C9:5432",
+        "FromPort": 5432,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "rgdbmirdsSecurityGroupC404A0AA",
+            "GroupId"
+          ]
+        },
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "rgdprivatesecuritygroup66F5C587",
+            "GroupId"
+          ]
+        },
+        "ToPort": 5432
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/SecurityGroup/from CdkAppStackrgdprivatesecuritygroup0BF2E0C9:5432"
+      }
+    },
+    "CdkAppStackrgdbmirdsSecretE4C2ADFB3fdaad7efa858a3daf9490cf0a702aeb": {
+      "Type": "AWS::SecretsManager::Secret",
+      "Properties": {
+        "Description": {
+          "Fn::Join": [
+            "",
+            [
+              "Generated by the CDK for stack: ",
+              {
+                "Ref": "AWS::StackName"
+              }
+            ]
+          ]
+        },
+        "GenerateSecretString": {
+          "ExcludeCharacters": " %+~`#$&*()|[]{}:;<>?!'/@\"\\",
+          "GenerateStringKey": "password",
+          "PasswordLength": 30,
+          "SecretStringTemplate": "{\"username\":\"postgres\"}"
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/Secret/Resource"
+      }
+    },
+    "rgdbmirdsSecretAttachmentC345D4C8": {
+      "Type": "AWS::SecretsManager::SecretTargetAttachment",
+      "Properties": {
+        "SecretId": {
+          "Ref": "CdkAppStackrgdbmirdsSecretE4C2ADFB3fdaad7efa858a3daf9490cf0a702aeb"
+        },
+        "TargetId": {
+          "Ref": "rgdbmirds9058BABD"
+        },
+        "TargetType": "AWS::RDS::DBInstance"
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/Secret/Attachment/Resource"
+      }
+    },
+    "rgdbmirds9058BABD": {
+      "Type": "AWS::RDS::DBInstance",
+      "Properties": {
+        "DBInstanceClass": "db.t3.micro",
+        "AllocatedStorage": "10",
+        "AllowMajorVersionUpgrade": false,
+        "AutoMinorVersionUpgrade": true,
+        "BackupRetentionPeriod": 0,
+        "CopyTagsToSnapshot": true,
+        "DBName": "todosdb",
+        "DBSubnetGroupName": {
+          "Ref": "rgdbmirdsSubnetGroupD30A13B1"
+        },
+        "DeleteAutomatedBackups": true,
+        "DeletionProtection": false,
+        "Engine": "postgres",
+        "EngineVersion": "13.4",
+        "MasterUsername": "postgres",
+        "MasterUserPassword": {
+          "Fn::Join": [
+            "",
+            [
+              "{{resolve:secretsmanager:",
+              {
+                "Ref": "CdkAppStackrgdbmirdsSecretE4C2ADFB3fdaad7efa858a3daf9490cf0a702aeb"
+              },
+              ":SecretString:password::}}"
+            ]
+          ]
+        },
+        "MaxAllocatedStorage": 11,
+        "MultiAZ": false,
+        "PubliclyAccessible": false,
+        "StorageType": "gp2",
+        "VPCSecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "rgdbmirdsSecurityGroupC404A0AA",
+              "GroupId"
+            ]
+          }
+        ]
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/Resource"
+      }
+    },
     "CDKMetadata": {
       "Type": "AWS::CDK::Metadata",
       "Properties": {
-        "Analytics": "v2:deflate64:H4sIAAAAAAAA/31R32vCMBD+W3yP2RQ22GPngwjCSiu+jmt66mmalOSiSOn/vtiqLWPsKff9yHeXy1zO3uTrBC5+qsrTVFMhm5xBnUSkvhtUc9lsayUWO7NNFyINhSaVh8Ig37ihymxg3EChceAHLvHeKgIma55mkTo6A+OQsTKMLtbLyF7gem96RwnHsQ4VGhY5quCIr0tnQ921+5dYmb1D71sBga1XoMnsZZNEkPfgeW0NwajDwpod7YN7jvvb2gqCSjaZ7R/7OFfGMxiFqbM70tgK1OCZlLZQFqCjFAPOcaFJXcctdvHrqH12GrpugjEe+8gzmrvnUY/0Dbh9XNzjIWP4R0oW+onHuG1Fht4GpzopBQcVct/xK3Ad+m8eWeKeSrrFtsLYEuXRv5xn7/JDziZHTzR1wTBVKLP+/AEMBAnjawIAAA=="
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/31T22rjMBD9lr4r2ibQhX3MBUogsF4n9HUZyxNXjS25uqQEo3/fqWQ7opR90pkzZ6S5acWXT/zxAT7sQtSXRSsrPhwdiAsj6u+AYsWHl16w7Vm9FFtW+KqV4ugrhe6Tu6NSe4cnqFq883duba0WEpzUahazvbIOlIgBMy6MvILD+8V75dAQfib2A25jJqO1dpTra4fKsSMKb6S7PRvt+5jDf4m9agxaG5iEjg9ZBoXRZ0lVlDqVEs9CU9nx7YQCA++0FdBK1fBhTcYxGfNrB/BKvG61OsvGm7n0r9LAsAXrpGg11BW0lAK5rtT2dd/TUzHwQL5N9KGJd+d2rpPWoRo1E878JzANdXJKMTe/uaX0qQO5HVh9U9DpmvZknnYEgdl3y4c/Hn0kIyBSEXnSvYw7lAAN1woj+6knuR2YqSliBw4qsDjvRVqIOfXdJicmNU3YpK3ZbaZISiGytgMFDZo47FGYjtSGbJVmwVdPCKxEq71JS1uAgQ5d6vdv73qfvsIoCUzpGvmb/XFd/uS/+PLhzUq5MF452SEv0/kPkSB8N4IDAAA="
       },
       "Metadata": {
         "aws:cdk:path": "CdkAppStack/CDKMetadata/Default"
-      },
-      "Condition": "CDKMetadataAvailable"
+      }
     }
   },
   "Parameters": {
@@ -672,200 +1210,69 @@
           "DNSName"
         ]
       }
-    }
-  },
-  "Conditions": {
-    "CDKMetadataAvailable": {
-      "Fn::Or": [
-        {
-          "Fn::Or": [
+    },
+    "rgdbmirdsdbEndpoint6928B5B4": {
+      "Value": {
+        "Fn::GetAtt": [
+          "rgdbmirds9058BABD",
+          "Endpoint.Address"
+        ]
+      }
+    },
+    "rgdbmirdssecretName287DED14": {
+      "Value": {
+        "Fn::Join": [
+          "-",
+          [
             {
-              "Fn::Equals": [
+              "Fn::Select": [
+                0,
                 {
-                  "Ref": "AWS::Region"
-                },
-                "af-south-1"
+                  "Fn::Split": [
+                    "-",
+                    {
+                      "Fn::Select": [
+                        6,
+                        {
+                          "Fn::Split": [
+                            ":",
+                            {
+                              "Ref": "CdkAppStackrgdbmirdsSecretE4C2ADFB3fdaad7efa858a3daf9490cf0a702aeb"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             },
             {
-              "Fn::Equals": [
+              "Fn::Select": [
+                1,
                 {
-                  "Ref": "AWS::Region"
-                },
-                "ap-east-1"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "ap-northeast-1"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "ap-northeast-2"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "ap-south-1"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "ap-southeast-1"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "ap-southeast-2"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "ca-central-1"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "cn-north-1"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "cn-northwest-1"
+                  "Fn::Split": [
+                    "-",
+                    {
+                      "Fn::Select": [
+                        6,
+                        {
+                          "Fn::Split": [
+                            ":",
+                            {
+                              "Ref": "CdkAppStackrgdbmirdsSecretE4C2ADFB3fdaad7efa858a3daf9490cf0a702aeb"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           ]
-        },
-        {
-          "Fn::Or": [
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "eu-central-1"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "eu-north-1"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "eu-south-1"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "eu-west-1"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "eu-west-2"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "eu-west-3"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "me-south-1"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "sa-east-1"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "us-east-1"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "us-east-2"
-              ]
-            }
-          ]
-        },
-        {
-          "Fn::Or": [
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "us-west-1"
-              ]
-            },
-            {
-              "Fn::Equals": [
-                {
-                  "Ref": "AWS::Region"
-                },
-                "us-west-2"
-              ]
-            }
-          ]
-        }
-      ]
+        ]
+      }
     }
   },
   "Rules": {

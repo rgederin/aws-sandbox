@@ -1,16 +1,17 @@
 {
   "version": "16.0.0",
   "files": {
-    "cdb2a67e4ce76c5a600a0a9b7cdc2978c616017ba4062fe4a94a1be232c8e55f": {
+    "8658bb965ee7f0a92b37fb8c1ccf6343ac2ba6b28339d6595e0ca8a90906c715": {
       "source": {
         "path": "CdkAppStack.template.json",
         "packaging": "file"
       },
       "destinations": {
-        "current_account-current_region": {
-          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "cdb2a67e4ce76c5a600a0a9b7cdc2978c616017ba4062fe4a94a1be232c8e55f.json",
-          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        "530260462866-us-west-2": {
+          "bucketName": "cdk-hnb659fds-assets-530260462866-us-west-2",
+          "objectKey": "8658bb965ee7f0a92b37fb8c1ccf6343ac2ba6b28339d6595e0ca8a90906c715.json",
+          "region": "us-west-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::530260462866:role/cdk-hnb659fds-file-publishing-role-530260462866-us-west-2"
         }
       }
     }

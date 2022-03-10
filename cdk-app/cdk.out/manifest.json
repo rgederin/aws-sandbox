@@ -17,20 +17,20 @@
     },
     "CdkAppStack": {
       "type": "aws:cloudformation:stack",
-      "environment": "aws://unknown-account/unknown-region",
+      "environment": "aws://530260462866/us-west-2",
       "properties": {
         "templateFile": "CdkAppStack.template.json",
         "validateOnSynth": false,
-        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
-        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/cdb2a67e4ce76c5a600a0a9b7cdc2978c616017ba4062fe4a94a1be232c8e55f.json",
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::530260462866:role/cdk-hnb659fds-deploy-role-530260462866-us-west-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::530260462866:role/cdk-hnb659fds-cfn-exec-role-530260462866-us-west-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-530260462866-us-west-2/8658bb965ee7f0a92b37fb8c1ccf6343ac2ba6b28339d6595e0ca8a90906c715.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
           "CdkAppStack.assets"
         ],
         "lookupRole": {
-          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "arn": "arn:${AWS::Partition}:iam::530260462866:role/cdk-hnb659fds-lookup-role-530260462866-us-west-2",
           "requiresBootstrapStackVersion": 8,
           "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
         }
@@ -67,6 +67,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "rgdbmivpcrgdbmipublicsubnetSubnet1DefaultRoute8E591311"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1/NatInstance/InstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmivpcrgdbmipublicsubnetSubnet1NatInstanceInstanceProfile685E5239"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet1/NatInstance/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmivpcrgdbmipublicsubnetSubnet1NatInstance0339F593"
           }
         ],
         "/CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-public-subnetSubnet2/Subnet": [
@@ -111,6 +123,12 @@
             "data": "rgdbmivpcrgdbmiprivatesubnet1Subnet1RouteTableAssociationCFACAA09"
           }
         ],
+        "/CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmivpcrgdbmiprivatesubnet1Subnet1DefaultRoute605CF4BC"
+          }
+        ],
         "/CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet2/Subnet": [
           {
             "type": "aws:cdk:logicalId",
@@ -129,6 +147,12 @@
             "data": "rgdbmivpcrgdbmiprivatesubnet1Subnet2RouteTableAssociation0F3637BF"
           }
         ],
+        "/CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/rgd-bmi-private-subnet-1Subnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmivpcrgdbmiprivatesubnet1Subnet2DefaultRoute47F6A623"
+          }
+        ],
         "/CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/IGW": [
           {
             "type": "aws:cdk:logicalId",
@@ -139,6 +163,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "rgdbmivpcVPCGWA32B6FCC"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/NatSecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmivpcNatSecurityGroupF6928237"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-vpc/rgd-bmi-vpc/NatRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmivpcNatRoleE59027FD"
           }
         ],
         "/CdkAppStack/rgd-public-security-group/rgd-public-security-group/Resource": [
@@ -153,10 +189,22 @@
             "data": "rgdpublicsecuritygroupfromCdkAppStackrgdpublicsecuritygroup133C6FDD807E130879"
           }
         ],
+        "/CdkAppStack/rgd-private-security-group/rgd-private-security-group/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdprivatesecuritygroup66F5C587"
+          }
+        ],
         "/CdkAppStack/rgd-public-group/rgd-public-group/InstanceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "rgdpublicgroupInstanceRole0F3ECC1B"
+          }
+        ],
+        "/CdkAppStack/rgd-public-group/rgd-public-group/InstanceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdpublicgroupInstanceRoleDefaultPolicyBBDC69AE"
           }
         ],
         "/CdkAppStack/rgd-public-group/rgd-public-group/InstanceProfile": [
@@ -181,6 +229,30 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "/CdkAppStack/rgd-private-ec2/rgd-private-ec2/InstanceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdprivateec2InstanceRole63F8EFD1"
+          }
+        ],
+        "/CdkAppStack/rgd-private-ec2/rgd-private-ec2/InstanceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdprivateec2InstanceRoleDefaultPolicy644479B3"
+          }
+        ],
+        "/CdkAppStack/rgd-private-ec2/rgd-private-ec2/InstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdprivateec2InstanceProfile1B59CC43"
+          }
+        ],
+        "/CdkAppStack/rgd-private-ec2/rgd-private-ec2/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdprivateec234EA0EEB"
           }
         ],
         "/CdkAppStack/rgd-load-balancer/alb/Resource": [
@@ -213,16 +285,90 @@
             "data": "rgdloadbalanceralbDNSF4419F82"
           }
         ],
+        "/CdkAppStack/rgd-rgd-bmi-log-table/rgd-bmi-log-table": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "rgdrgdbmilogtable2CF5D268"
+            }
+          }
+        ],
+        "/CdkAppStack/rgd-rgd-bmi-log-table/rgd-bmi-log-table/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdrgdbmilogtable2CF5D268"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-queue-id/rgd-bmi-queue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmiqueueidrgdbmiqueue2C80E3C7"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-topic-id/rgd-bmi-topic/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmitopicidrgdbmitopic24817719"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-topic-id/rgd-bmi-topic/rgederin@lohika.com/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmitopicidrgdbmitopicrgederinlohikacom8CCEE237"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/SubnetGroup/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmirdsSubnetGroupD30A13B1"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmirdsSecurityGroupC404A0AA"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/SecurityGroup/from CdkAppStackrgdprivatesecuritygroup0BF2E0C9:5432": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmirdsSecurityGroupfromCdkAppStackrgdprivatesecuritygroup0BF2E0C954326763A477"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/Secret/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CdkAppStackrgdbmirdsSecretE4C2ADFB3fdaad7efa858a3daf9490cf0a702aeb"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/Secret/Attachment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmirdsSecretAttachmentC345D4C8"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-rds/rgd-bmi-rds/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmirds9058BABD"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-rds/dbEndpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmirdsdbEndpoint6928B5B4"
+          }
+        ],
+        "/CdkAppStack/rgd-bmi-rds/secretName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rgdbmirdssecretName287DED14"
+          }
+        ],
         "/CdkAppStack/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
-          }
-        ],
-        "/CdkAppStack/CDKMetadata/Condition": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CDKMetadataAvailable"
           }
         ],
         "/CdkAppStack/BootstrapVersion": [
